@@ -64,10 +64,10 @@ struct CountDownDateWidgetEntryView : View {
                         .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.5).opacity(0.78))
                         .frame(width: 38, height: 23, alignment: .topLeading)
                         .padding(.leading,-8)
-                }.padding(.top,-12)
+                }.padding(.top,0)
                 
-                Spacer()
-                    .frame(height: 10)
+//                Spacer()
+//                    .frame(height: 10)
                 
                 HStack(alignment: .firstTextBaseline){
                     Text(String(entry.downDate))
@@ -85,6 +85,10 @@ struct CountDownDateWidgetEntryView : View {
                         .padding(.leading,-12)
 
                 }.padding(.leading,8)
+                    .padding(.top,-2)
+                Spacer()
+                    .frame(height:12)
+                CountDownBarView(leftDateYear1: .constant(entry.downDate), leftDateYear2: .constant(0))
                 
             }.frame(width: geo.size.width,height: geo.size.height)
             
