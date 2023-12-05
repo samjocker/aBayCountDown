@@ -10,10 +10,21 @@ import WidgetKit
 
 struct HomePage: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    
+    @AppStorage("whichBigTest", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var whichBigTest: String = "GSAT"
+    @AppStorage("customeTargetDateSave1", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeTargetDateSave1: String = "2023/12/03"
+    @AppStorage("customeTargetDateSave2", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeTargetDateSave2: String = "2023/12/03"
+    @AppStorage("customeTargetDateSave3", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeTargetDateSave3: String = "2023/12/03"
+    @AppStorage("customeWidgetName1", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeWidgetNameSave1: String = "自訂1"
+    @AppStorage("customeWidgetName2", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeWidgetNameSave2: String = "自訂2"
+    @AppStorage("customeWidgetName3", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeWidgetNameSave3: String = "自訂3"
+    
     @State var selectId: Int = 0
     @State var bigTestType: String = "CAP"
     @State var bigTestDate: Date = .now
-    @AppStorage("whichBigTest", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var whichBigTest: String = "GSAT"
+    @State var customeWidgetNameList: [String] = ["自訂1","自訂2","自訂3"]
+    
     let bigTestDateDict: [String:String] = ["CAP":"2024/05/18", "TVE":"2024/04/27", "GSAT":"2024/01/20"]
     let bigTestNameDict: [String:String] = ["CAP":"會考", "TVE":"統測", "GSAT":"學測"]
     
@@ -32,7 +43,7 @@ struct HomePage: View {
                                 Text("會考/學測/統測")
                                     .font(.system(size: 26))
                                     .fontWeight(.semibold)
-                                    .foregroundStyle(Color(red: 0.2, green: 0.3, blue: 0.5))
+                                    .foregroundStyle(colorScheme == .light ? Color(red: 0.2, green: 0.3, blue: 0.5) : Color(red: 0.95, green: 0.9, blue: 0.87))
                                     .scrollTransition { content,phase in
                                         content.opacity(phase.isIdentity ? 1.0:0.0)
                                             .scaleEffect(phase.isIdentity ? 1.0:0.6)
@@ -44,7 +55,7 @@ struct HomePage: View {
                                     }
                                     .cornerRadius(25)
                                     .frame(width: 160, height: 160)
-                                    .shadow(radius: 8,x:4,y:4)
+                                    .shadow(color:Color.primary.opacity(0.4),radius: 8,x:4,y:4)
                                     .containerRelativeFrame(.horizontal, count:1, spacing:20)
                                     .scrollTransition { content,phase in
                                         content.opacity(phase.isIdentity ? 1.0:0.5)
@@ -74,7 +85,7 @@ struct HomePage: View {
                             }
                             ForEach(0..<3) { i in
                                 VStack{
-                                    Text("自定"+String(i+1))
+                                    Text(customeWidgetNameList[i])
                                         .font(.system(size: 24))
                                         .fontWeight(.semibold)
                                         .foregroundStyle(Color(red: 0.2, green: 0.3, blue: 0.5))
@@ -82,7 +93,7 @@ struct HomePage: View {
                                             content.opacity(phase.isIdentity ? 1.0:0.0)
                                                 .scaleEffect(phase.isIdentity ? 1.0:0.6)
                                         }
-                                        .frame(width:160)
+                                        .frame(width:180)
                                     
                                     Rectangle()
                                         .frame(width: 160,height: 160)
@@ -98,7 +109,7 @@ struct HomePage: View {
                                     Spacer()
                                         .frame(height: 10)
                                     NavigationLink() {
-                                        EditDatePage()
+                                        EditDatePage(widgetNum: .constant(i+1), customeWidgetNameList: $customeWidgetNameList)
                                     } label: {
                                         ZStack {
                                             Rectangle()
@@ -129,10 +140,13 @@ struct HomePage: View {
 //                    .background(Color.white)
                 }
                 .navigationTitle("初四倒數")
+                .background(colorScheme == .light ? Gradient(colors: [Color.white, Color(UIColor.secondarySystemBackground)]) : Gradient(colors: [Color(UIColor.systemGroupedBackground)]))
+                
                 
 //                    .toolbarBackground(Color(red: 0.95, green: 0.9, blue: 0.87).opacity(0.5), for: .navigationBar)
             }.background {
-                Color(red: 0.95, green: 0.95, blue: 0.97)
+//                Color(red: 0.95, green: 0.95, blue: 0.97)
+                Color(UIColor.secondarySystemBackground)
                     .ignoresSafeArea()
             }
 
@@ -142,6 +156,9 @@ struct HomePage: View {
             dateFormatter.dateFormat = "yyyy/MM/dd"
             let testDay = dateFormatter.date(from: bigTestDateDict[bigTestType]!)
             bigTestDate = testDay!
+            customeWidgetNameList[0] = customeWidgetNameSave1
+            customeWidgetNameList[1] = customeWidgetNameSave2
+            customeWidgetNameList[2] = customeWidgetNameSave3
         }
         
     }
@@ -177,16 +194,16 @@ struct EditBigTestDatePage: View {
                         }.onAppear{
                             bigTestType = whichBigTest
                             aleadySaveTestType = whichBigTest
-                            print(bigTestType)
+//                            print(bigTestType)
                         }
                     }
-                    Button("testButton"){
-                        let dateFormatter = DateFormatter()
-                        dateFormatter.dateFormat = "yyyy/MM/dd"
-                        let testDay = dateFormatter.date(from: bigTestDateDict[bigTestType]!)
-                        let days = Calendar.current.dateComponents([.day], from: .now, to: testDay!)
-                        print(String(days.day!+1))
-                    }
+//                    Button("testButton"){
+//                        let dateFormatter = DateFormatter()
+//                        dateFormatter.dateFormat = "yyyy/MM/dd"
+//                        let testDay = dateFormatter.date(from: bigTestDateDict[bigTestType]!)
+//                        let days = Calendar.current.dateComponents([.day], from: .now, to: testDay!)
+//                        print(String(days.day!+1))
+//                    }
                 }
                 
             }.navigationTitle("小工具編輯")
@@ -211,14 +228,32 @@ struct EditBigTestDatePage: View {
 
 struct EditDatePage: View {
     
-    @State var targetDate: Date = .now
-    @AppStorage("targetDateSave") var targetDateSave: String = "2023/12/03"
     @Environment(\.presentationMode) var presentationMode
+    
+    @AppStorage("customeTargetDateSave1", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeTargetDateSave1: String = "2023/12/03"
+    @AppStorage("customeTargetDateSave2", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeTargetDateSave2: String = "2023/12/03"
+    @AppStorage("customeTargetDateSave3", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeTargetDateSave3: String = "2023/12/03"
+    @AppStorage("customeWidgetName1", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeWidgetNameSave1: String = "自訂1"
+    @AppStorage("customeWidgetName2", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeWidgetNameSave2: String = "自訂2"
+    @AppStorage("customeWidgetName3", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeWidgetNameSave3: String = "自訂3"
+    
+    @Binding var widgetNum: Int
+    @Binding var customeWidgetNameList: [String]
+    
+    @State var targetDate: Date = .now
+    @State var customeWidgetName: String = "自訂"
     
     var body: some View {
         NavigationStack{
             VStack{
                 Form {
+                    Section(header: Text("設定倒數標題")) {
+                        HStack{
+                            Image(systemName: "pencil.line")
+                            TextField("請輸入倒數小工具標題", text: $customeWidgetName)
+                                .textFieldStyle(.roundedBorder)
+                        }
+                    }
                     Section(header: Text("設定目標日期")) {
                         HStack(alignment:.center){
                             Image(systemName: "calendar")
@@ -234,7 +269,20 @@ struct EditDatePage: View {
                 }.onAppear{
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "yyyy/MM/dd"
-                    targetDate = dateFormatter.date(from: targetDateSave)!
+                    switch widgetNum {
+                    case 1:
+                        targetDate = dateFormatter.date(from: customeTargetDateSave1)!
+                        customeWidgetName = customeWidgetNameSave1
+                    case 2:
+                        targetDate = dateFormatter.date(from: customeTargetDateSave2)!
+                        customeWidgetName = customeWidgetNameSave2
+                    case 3:
+                        targetDate = dateFormatter.date(from: customeTargetDateSave3)!
+                        customeWidgetName = customeWidgetNameSave3
+                    default:
+                        print("Error Rom Read")
+                    }
+                    
                 }
                 
             }.navigationTitle("小工具編輯")
@@ -245,8 +293,25 @@ struct EditDatePage: View {
                             let dateFormatter = DateFormatter()
                             dateFormatter.dateFormat = "yyyy/MM/dd"
                             let dateString = dateFormatter.string(from: targetDate)
-                            targetDateSave = dateString
-                            print("save-"+dateString)
+                            switch widgetNum {
+                            case 1:
+                                customeTargetDateSave1 = dateString
+                                customeWidgetNameSave1 = customeWidgetName
+                                customeWidgetNameList[0] = customeWidgetName
+                            case 2:
+                                customeTargetDateSave2 = dateString
+                                customeWidgetNameSave2 = customeWidgetName
+                                customeWidgetNameList[1] = customeWidgetName
+                            case 3:
+                                customeTargetDateSave3 = dateString
+                                customeWidgetNameSave3 = customeWidgetName
+                                customeWidgetNameList[2] = customeWidgetName
+                            default:
+                                print("Error Rom Save")
+                            }
+                            WidgetCenter.shared.reloadTimelines(ofKind: "CountDownDateWidget")
+                            
+                            print("save-"+dateString+"to"+String(widgetNum))
                         }
                     }
                 }
@@ -311,7 +376,7 @@ struct WidgetPreviewRectangle: View {
             }.frame(width: geo.size.width,height: geo.size.height)
                 .onAppear{
                     let days = Calendar.current.dateComponents([.day], from: .now, to: targetDate)
-                    print(String(days.day!+1))
+//                    print(String(days.day!+1))
                     downDays = days.day!+1
                 }
             
@@ -330,5 +395,5 @@ struct WidgetPreviewRectangle: View {
 }
 
 #Preview {
-    EditDatePage()
+    EditDatePage(widgetNum: .constant(1), customeWidgetNameList: .constant(["自訂one","自訂two","自訂three"]))
 }

@@ -22,6 +22,12 @@
 		2287EDF22B17752500315216 /* CountDownDateWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2287EDF12B17752500315216 /* CountDownDateWidget.swift */; };
 		2287EDF42B17752600315216 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2287EDF32B17752600315216 /* Assets.xcassets */; };
 		2287EDF82B17752600315216 /* CountDownDateWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2287EDE82B17752500315216 /* CountDownDateWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		22C5F75A2B1E02EB000F0E37 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2287EDEA2B17752500315216 /* WidgetKit.framework */; };
+		22C5F75B2B1E02EB000F0E37 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2287EDEC2B17752500315216 /* SwiftUI.framework */; };
+		22C5F75E2B1E02EB000F0E37 /* CountDownDateCustomizeWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C5F75D2B1E02EB000F0E37 /* CountDownDateCustomizeWidgetBundle.swift */; };
+		22C5F7602B1E02EB000F0E37 /* CountDownDateCustomizeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C5F75F2B1E02EB000F0E37 /* CountDownDateCustomizeWidget.swift */; };
+		22C5F7622B1E02EC000F0E37 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22C5F7612B1E02EC000F0E37 /* Assets.xcassets */; };
+		22C5F7662B1E02EC000F0E37 /* CountDownDateCustomizeWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 22C5F7592B1E02EB000F0E37 /* CountDownDateCustomizeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		22CFEECE2B1C79EF008B7949 /* CountDownBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CFEECD2B1C79EF008B7949 /* CountDownBarView.swift */; };
 		22CFEECF2B1C79EF008B7949 /* CountDownBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CFEECD2B1C79EF008B7949 /* CountDownBarView.swift */; };
 /* End PBXBuildFile section */
@@ -48,6 +54,13 @@
 			remoteGlobalIDString = 2287EDE72B17752500315216;
 			remoteInfo = CountDownDateWidgetExtension;
 		};
+		22C5F7642B1E02EC000F0E37 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2287EDAF2B1774F900315216 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 22C5F7582B1E02EB000F0E37;
+			remoteInfo = CountDownDateCustomizeWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -57,6 +70,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				22C5F7662B1E02EC000F0E37 /* CountDownDateCustomizeWidgetExtension.appex in Embed Foundation Extensions */,
 				2287EDF82B17752600315216 /* CountDownDateWidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
@@ -83,6 +97,12 @@
 		2287EDF12B17752500315216 /* CountDownDateWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownDateWidget.swift; sourceTree = "<group>"; };
 		2287EDF32B17752600315216 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2287EDF52B17752600315216 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		22C5F7592B1E02EB000F0E37 /* CountDownDateCustomizeWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CountDownDateCustomizeWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		22C5F75D2B1E02EB000F0E37 /* CountDownDateCustomizeWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownDateCustomizeWidgetBundle.swift; sourceTree = "<group>"; };
+		22C5F75F2B1E02EB000F0E37 /* CountDownDateCustomizeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownDateCustomizeWidget.swift; sourceTree = "<group>"; };
+		22C5F7612B1E02EC000F0E37 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		22C5F7632B1E02EC000F0E37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		22C5F76A2B1E068E000F0E37 /* CountDownDateCustomizeWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CountDownDateCustomizeWidgetExtension.entitlements; sourceTree = "<group>"; };
 		22CFEECD2B1C79EF008B7949 /* CountDownBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownBarView.swift; sourceTree = "<group>"; };
 		22CFEED02B1C7CE7008B7949 /* CountDownDateWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CountDownDateWidgetExtension.entitlements; sourceTree = "<group>"; };
 		22CFEED12B1C7D15008B7949 /* CountDownDate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CountDownDate.entitlements; sourceTree = "<group>"; };
@@ -119,17 +139,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		22C5F7562B1E02EB000F0E37 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				22C5F75B2B1E02EB000F0E37 /* SwiftUI.framework in Frameworks */,
+				22C5F75A2B1E02EB000F0E37 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		2287EDAE2B1774F900315216 = {
 			isa = PBXGroup;
 			children = (
+				22C5F76A2B1E068E000F0E37 /* CountDownDateCustomizeWidgetExtension.entitlements */,
 				22CFEED02B1C7CE7008B7949 /* CountDownDateWidgetExtension.entitlements */,
 				2287EDB92B1774F900315216 /* CountDownDate */,
 				2287EDCA2B1774FA00315216 /* CountDownDateTests */,
 				2287EDD42B1774FA00315216 /* CountDownDateUITests */,
 				2287EDEE2B17752500315216 /* CountDownDateWidget */,
+				22C5F75C2B1E02EB000F0E37 /* CountDownDateCustomizeWidget */,
 				2287EDE92B17752500315216 /* Frameworks */,
 				2287EDB82B1774F900315216 /* Products */,
 			);
@@ -142,6 +173,7 @@
 				2287EDC72B1774FA00315216 /* CountDownDateTests.xctest */,
 				2287EDD12B1774FA00315216 /* CountDownDateUITests.xctest */,
 				2287EDE82B17752500315216 /* CountDownDateWidgetExtension.appex */,
+				22C5F7592B1E02EB000F0E37 /* CountDownDateCustomizeWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -205,6 +237,17 @@
 			path = CountDownDateWidget;
 			sourceTree = "<group>";
 		};
+		22C5F75C2B1E02EB000F0E37 /* CountDownDateCustomizeWidget */ = {
+			isa = PBXGroup;
+			children = (
+				22C5F75D2B1E02EB000F0E37 /* CountDownDateCustomizeWidgetBundle.swift */,
+				22C5F75F2B1E02EB000F0E37 /* CountDownDateCustomizeWidget.swift */,
+				22C5F7612B1E02EC000F0E37 /* Assets.xcassets */,
+				22C5F7632B1E02EC000F0E37 /* Info.plist */,
+			);
+			path = CountDownDateCustomizeWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -221,6 +264,7 @@
 			);
 			dependencies = (
 				2287EDF72B17752600315216 /* PBXTargetDependency */,
+				22C5F7652B1E02EC000F0E37 /* PBXTargetDependency */,
 			);
 			name = CountDownDate;
 			productName = CountDownDate;
@@ -280,6 +324,23 @@
 			productReference = 2287EDE82B17752500315216 /* CountDownDateWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		22C5F7582B1E02EB000F0E37 /* CountDownDateCustomizeWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 22C5F7672B1E02EC000F0E37 /* Build configuration list for PBXNativeTarget "CountDownDateCustomizeWidgetExtension" */;
+			buildPhases = (
+				22C5F7552B1E02EB000F0E37 /* Sources */,
+				22C5F7562B1E02EB000F0E37 /* Frameworks */,
+				22C5F7572B1E02EB000F0E37 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CountDownDateCustomizeWidgetExtension;
+			productName = CountDownDateCustomizeWidgetExtension;
+			productReference = 22C5F7592B1E02EB000F0E37 /* CountDownDateCustomizeWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -304,6 +365,9 @@
 					2287EDE72B17752500315216 = {
 						CreatedOnToolsVersion = 15.0.1;
 					};
+					22C5F7582B1E02EB000F0E37 = {
+						CreatedOnToolsVersion = 15.0.1;
+					};
 				};
 			};
 			buildConfigurationList = 2287EDB22B1774F900315216 /* Build configuration list for PBXProject "CountDownDate" */;
@@ -323,6 +387,7 @@
 				2287EDC62B1774FA00315216 /* CountDownDateTests */,
 				2287EDD02B1774FA00315216 /* CountDownDateUITests */,
 				2287EDE72B17752500315216 /* CountDownDateWidgetExtension */,
+				22C5F7582B1E02EB000F0E37 /* CountDownDateCustomizeWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -356,6 +421,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				2287EDF42B17752600315216 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		22C5F7572B1E02EB000F0E37 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				22C5F7622B1E02EC000F0E37 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,6 +474,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		22C5F7552B1E02EB000F0E37 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				22C5F75E2B1E02EB000F0E37 /* CountDownDateCustomizeWidgetBundle.swift in Sources */,
+				22C5F7602B1E02EB000F0E37 /* CountDownDateCustomizeWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -418,6 +500,11 @@
 			isa = PBXTargetDependency;
 			target = 2287EDE72B17752500315216 /* CountDownDateWidgetExtension */;
 			targetProxy = 2287EDF62B17752600315216 /* PBXContainerItemProxy */;
+		};
+		22C5F7652B1E02EC000F0E37 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 22C5F7582B1E02EB000F0E37 /* CountDownDateCustomizeWidgetExtension */;
+			targetProxy = 22C5F7642B1E02EC000F0E37 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -558,7 +645,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -589,7 +676,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -735,6 +822,62 @@
 			};
 			name = Release;
 		};
+		22C5F7682B1E02EC000F0E37 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = CountDownDateCustomizeWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GM583TGZB5;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CountDownDateCustomizeWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CountDownDateCustomizeWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Sam.CountDownDate.CountDownDateCustomizeWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		22C5F7692B1E02EC000F0E37 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = CountDownDateCustomizeWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GM583TGZB5;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CountDownDateCustomizeWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CountDownDateCustomizeWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Sam.CountDownDate.CountDownDateCustomizeWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -779,6 +922,15 @@
 			buildConfigurations = (
 				2287EDFA2B17752600315216 /* Debug */,
 				2287EDFB2B17752600315216 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		22C5F7672B1E02EC000F0E37 /* Build configuration list for PBXNativeTarget "CountDownDateCustomizeWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				22C5F7682B1E02EC000F0E37 /* Debug */,
+				22C5F7692B1E02EC000F0E37 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

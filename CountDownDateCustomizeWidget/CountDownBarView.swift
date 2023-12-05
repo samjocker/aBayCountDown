@@ -2,7 +2,7 @@
 //  CountDownBarView.swift
 //  CountDownDate
 //
-//  Created by 江祐鈞 on 2023/12/3.
+//  Created by 江祐鈞 on 2023/12/4.
 //
 
 import SwiftUI

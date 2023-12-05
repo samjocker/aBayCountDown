@@ -67,6 +67,68 @@ struct SimpleEntry: TimelineEntry {
 }
 
 struct CountDownDateWidgetEntryView : View {
+    @Environment(\.widgetFamily) var widgetFamily
+    var entry: Provider.Entry
+
+    var body: some View {
+        switch widgetFamily {
+            case .systemSmall :
+                    smallCountDownDateWidget(entry: entry)
+            case .accessoryCircular :
+            ZStack{
+                AccessoryWidgetBackground()
+                VStack(spacing: 1) {
+                    Text(entry.title)
+                        .font(.system(size: 14,design: .rounded))
+                        .fontWeight(.medium)
+                    //                    Spacer()
+                    //                        .frame(height:2)
+                    Rectangle()
+                        .frame(width: 50,height: 1)
+                    //                    Spacer()
+                    //                        .frame(height:6)
+                    Text(String(entry.countDownNum))
+                        .font(.system(size: 22,design: .rounded))
+                        .fontWeight(.bold)
+                }
+            }
+        case .accessoryInline :
+            HStack{
+                Image(systemName: "calendar.badge.clock")
+                Text(entry.title+" 倒數"+String(entry.countDownNum)+"天")
+            }
+                
+            default:
+                Text("Error")
+        }
+        
+        
+    }
+    
+    
+}
+
+struct CountDownDateWidget: Widget {
+    let kind: String = "CountDownDateWidget"
+
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: Provider()) { entry in
+            if #available(iOS 17.0, *) {
+                CountDownDateWidgetEntryView(entry: entry)
+                    .containerBackground(Color(red: 0.95, green: 0.9, blue: 0.87), for: .widget)
+            } else {
+                CountDownDateWidgetEntryView(entry: entry)
+                    .padding()
+                    .background(Color(red: 0.95, green: 0.9, blue: 0.87))
+            }
+        }
+        .configurationDisplayName("大考倒數")
+        .description("顯示距離大考剩餘幾天")
+        .supportedFamilies([.systemSmall, .accessoryCircular, .accessoryInline])
+    }
+}
+
+struct smallCountDownDateWidget: View {
     var entry: Provider.Entry
 
     var body: some View {
@@ -122,93 +184,11 @@ struct CountDownDateWidgetEntryView : View {
         }
         
     }
-    
-    
-}
-
-struct CountDownDateWidget: Widget {
-    let kind: String = "CountDownDateWidget"
-
-    var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            if #available(iOS 17.0, *) {
-                CountDownDateWidgetEntryView(entry: entry)
-                    .containerBackground(Color(red: 0.95, green: 0.9, blue: 0.87), for: .widget)
-            } else {
-                CountDownDateWidgetEntryView(entry: entry)
-                    .padding()
-                    .background()
-            }
-        }
-        .configurationDisplayName("學測倒數")
-        .description("顯示距離學測考試剩餘幾天")
-        .supportedFamilies([.systemSmall])
-    }
 }
 
 #Preview(as: .systemSmall) {
     CountDownDateWidget()
 } timeline: {
-    SimpleEntry(date: .now, title: "統測", targetDate: DateComponents(calendar: .current, year: 2023, month: 12, day: 10).date!, countDownNum: 140)
+    SimpleEntry(date: .now, title: "統測", targetDate: DateComponents(calendar: .current, year: 2024, month: 11, day: 10).date!, countDownNum: 140)
     SimpleEntry(date: .now, title: "學測", targetDate: DateComponents(calendar: .current, year: 2024, month: 1, day: 20).date!, countDownNum: 48)
-}
-
-struct CountDownBarTestView: View {
-    
-    @Binding var targetDate: Date {
-        didSet {
-            @State var leftDateYear1 = getCountDownNum(targetDate: targetDate)
-        }
-    }
-    @State var leftDateYear1: Int = 0
-    @State var leftDateYear2: Int = 0
-    
-    var body: some View {
-        ZStack{
-            Rectangle()
-                .frame(width: 126,height: leftDateYear2>0 ? 21:10)
-                .foregroundStyle(Color(red: 0.85, green: 0.85, blue: 0.85))
-                .cornerRadius(4)
-            Rectangle()
-                .frame(width:CGFloat(126*(Float(leftDateYear1)/365.0)),height: leftDateYear2>0 ? 21:10)
-                .foregroundStyle(Color.orange)
-                .cornerRadius(4)
-            HStack(alignment: .top, spacing: 10) {
-                ForEach(0..<11){i in
-                    Rectangle()
-                        .frame(width: 1,height: 5)
-                        .cornerRadius(1)
-                        .foregroundStyle(Color.gray)
-                }
-            }
-            
-        }.frame(width: 126,height: leftDateYear2>0 ? 21:10)
-        .onAppear{
-            leftDateYear1 = getCountDownNum(targetDate: targetDate)
-        }
-    }
-    
-    func getCountDownNum(targetDate: Date) -> Int {
-        let days = Calendar.current.dateComponents([.day], from: .now, to: targetDate)
-        return Int(days.day!)
-    }
-}
-//
-//#Preview {
-//    static var previews: some View {
-//            let customDate = DateComponents(calendar: .current, year: 2024, month: 3, day: 4).date!
-//
-//            return CountDownBarView(targetDate: .constant(customDate))
-//                .environment(\.locale, Locale(identifier: "en_US"))
-//        }
-//
-////    CountDownBarView(targetDate: .constant(.now))
-//}
-
-struct DemoViewTest_Previews: PreviewProvider {
-    static var previews: some View {
-            let customDate = DateComponents(calendar: .current, year: 2024, month:11, day: 4).date!
-            
-            return CountDownBarTestView(targetDate: .constant(customDate))
-        }
 }
