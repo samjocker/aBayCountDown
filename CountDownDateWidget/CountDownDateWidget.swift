@@ -31,6 +31,9 @@ struct Provider: TimelineProvider {
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
+//        let startOfDay = Calendar.current.startOfDay(for: currentDate)
+//        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
+//        let entry = SimpleEntry(date: startOfDay, title: bigTestNameDict[whichBigTest]!, targetDate: getTargetDate(bigTestName: whichBigTest), countDownNum: getCountDownNum(bigTestName: whichBigTest))
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
             let entry = SimpleEntry(date: entryDate, title: bigTestNameDict[whichBigTest]!, targetDate: getTargetDate(bigTestName: whichBigTest), countDownNum: getCountDownNum(bigTestName: whichBigTest))
@@ -38,6 +41,7 @@ struct Provider: TimelineProvider {
         }
 
         let timeline = Timeline(entries: entries, policy: .atEnd)
+//        let timeline = Timeline(entries: entries, policy: .after(endOfDay))
         completion(timeline)
     }
     

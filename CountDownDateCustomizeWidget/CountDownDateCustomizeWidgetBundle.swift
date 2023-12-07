@@ -12,6 +12,7 @@ import SwiftUI
 struct CountDownDateCustomizeWidgetBundle: WidgetBundle {
     var body: some Widget {
         CountDownDateCustomizeWidget1()
-        CountDownDateCustomizeWidget1()
+        CountDownDateCustomizeWidget2()
+        CountDownDateCustomizeWidget3()
     }
 }

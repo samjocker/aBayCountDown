@@ -80,6 +80,7 @@
 
 /* Begin PBXFileReference section */
 		225E34272B1AE9140051F5FC /* HomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
+		2263D1042B20C6DF0012548D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2287EDB72B1774F900315216 /* CountDownDate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CountDownDate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2287EDBA2B1774F900315216 /* CountDownDateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownDateApp.swift; sourceTree = "<group>"; };
 		2287EDBC2B1774F900315216 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -181,6 +182,7 @@
 		2287EDB92B1774F900315216 /* CountDownDate */ = {
 			isa = PBXGroup;
 			children = (
+				2263D1042B20C6DF0012548D /* Info.plist */,
 				22CFEED12B1C7D15008B7949 /* CountDownDate.entitlements */,
 				2287EDBA2B1774F900315216 /* CountDownDateApp.swift */,
 				2287EDBC2B1774F900315216 /* ContentView.swift */,
@@ -641,18 +643,23 @@
 				DEVELOPMENT_TEAM = GM583TGZB5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CountDownDate/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "阿北倒數";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = Sam.CountDownDate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -672,18 +679,23 @@
 				DEVELOPMENT_TEAM = GM583TGZB5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CountDownDate/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "阿北倒數";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = Sam.CountDownDate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -833,7 +845,8 @@
 				DEVELOPMENT_TEAM = GM583TGZB5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountDownDateCustomizeWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = CountDownDateCustomizeWidget;
+				INFOPLIST_KEY_CFBundleDisplayName = CountDownDateCustomizeWidget1;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -861,7 +874,8 @@
 				DEVELOPMENT_TEAM = GM583TGZB5;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CountDownDateCustomizeWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = CountDownDateCustomizeWidget;
+				INFOPLIST_KEY_CFBundleDisplayName = CountDownDateCustomizeWidget1;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

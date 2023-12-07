@@ -10,16 +10,21 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     
-    @AppStorage("customeTargetDateSave1", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeTargetDateSave1: String = "2023/12/03"
+    @AppStorage("customeTargetDateSave1", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeTargetDateSave1: String = "2024/2/23"
+    @AppStorage("customeTargetDateSave2", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeTargetDateSave2: String = "2024/4/03"
+    @AppStorage("customeTargetDateSave3", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeTargetDateSave3: String = "2024/7/31"
     @AppStorage("customeWidgetName1", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeWidgetNameSave1: String = "自訂1"
+    @AppStorage("customeWidgetName2", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeWidgetNameSave2: String = "自訂2"
+    @AppStorage("customeWidgetName3", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeWidgetNameSave3: String = "自訂3"
+
     
     func placeholder(in context: Context) -> SimpleEntry {
         
-        SimpleEntry(date: Date(), title: customeWidgetNameSave1, targetDate: getTargetDate(targetDateString: customeTargetDateSave1), countDownNum: getCountDownNum(targetDateString: customeTargetDateSave1))
+        SimpleEntry(date: Date(), title: [customeWidgetNameSave1,customeWidgetNameSave2,customeWidgetNameSave3], targetDate: [getTargetDate(targetDateString: customeTargetDateSave1),getTargetDate(targetDateString: customeTargetDateSave2),getTargetDate(targetDateString: customeTargetDateSave3)], countDownNum: [getCountDownNum(targetDateString: customeTargetDateSave1), getCountDownNum(targetDateString: customeTargetDateSave2), getCountDownNum(targetDateString: customeTargetDateSave3)])
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), title: customeWidgetNameSave1, targetDate: getTargetDate(targetDateString: customeTargetDateSave1), countDownNum: getCountDownNum(targetDateString: customeTargetDateSave1))
+        let entry = SimpleEntry(date: Date(), title: [customeWidgetNameSave1,customeWidgetNameSave2,customeWidgetNameSave3], targetDate: [getTargetDate(targetDateString: customeTargetDateSave1),getTargetDate(targetDateString: customeTargetDateSave2),getTargetDate(targetDateString: customeTargetDateSave3)], countDownNum: [getCountDownNum(targetDateString: customeTargetDateSave1), getCountDownNum(targetDateString: customeTargetDateSave2), getCountDownNum(targetDateString: customeTargetDateSave3)])
         completion(entry)
     }
 
@@ -30,7 +35,7 @@ struct Provider: TimelineProvider {
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, title: customeWidgetNameSave1, targetDate: getTargetDate(targetDateString: customeTargetDateSave1), countDownNum: getCountDownNum(targetDateString: customeTargetDateSave1))
+            let entry = SimpleEntry(date: entryDate, title: [customeWidgetNameSave1,customeWidgetNameSave2,customeWidgetNameSave3], targetDate: [getTargetDate(targetDateString: customeTargetDateSave1),getTargetDate(targetDateString: customeTargetDateSave2),getTargetDate(targetDateString: customeTargetDateSave3)], countDownNum: [getCountDownNum(targetDateString: customeTargetDateSave1), getCountDownNum(targetDateString: customeTargetDateSave2), getCountDownNum(targetDateString: customeTargetDateSave3)])
             entries.append(entry)
         }
 
@@ -58,34 +63,74 @@ struct Provider: TimelineProvider {
 struct SimpleEntry: TimelineEntry {
     let date: Date
 //    let emoji: String
-    let title: String
-    let targetDate: Date
-    let countDownNum: Int
+    let title: [String]
+    let targetDate: [Date]
+    let countDownNum: [Int]
 }
 
-struct CountDownDateCustomizeWidgetEntryView : View {
-    var entry: Provider.Entry
-
-    var body: some View {
-        CustomizeWidgetView(entry: entry)
-    }
-}
+//struct CountDownDateCustomizeWidgetEntryView : View {
+//    var entry: Provider.Entry
+//
+//    var body: some View {
+//        CustomizeWidgetView(entry: entry, customizeNum: .constant(2))
+//    }
+//}
 
 struct CountDownDateCustomizeWidget1: Widget {
-    let kind: String = "CountDownDateCustomizeWidget"
+    let kind: String = "CountDownDateCustomizeWidget1"
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             if #available(iOS 17.0, *) {
-                CustomizeWidgetView(entry: entry)
+                CustomizeWidgetView(entry: entry, customizeNum: .constant(1))
                     .containerBackground(Color(red: 0.95, green: 0.9, blue: 0.87), for: .widget)
             } else {
-                CustomizeWidgetView(entry: entry)
+                CustomizeWidgetView(entry: entry, customizeNum: .constant(1))
                     .padding()
                     .background(Color(red: 0.95, green: 0.9, blue: 0.87))
             }
         }
-        .configurationDisplayName("自訂倒數小工具")
+        .configurationDisplayName("自訂倒數小工具1")
+        .description("放置屬於你的倒數小工具")
+        .supportedFamilies([.systemSmall])
+    }
+}
+
+struct CountDownDateCustomizeWidget2: Widget {
+    let kind: String = "CountDownDateCustomizeWidget2"
+
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: Provider()) { entry in
+            if #available(iOS 17.0, *) {
+                CustomizeWidgetView(entry: entry, customizeNum: .constant(2))
+                    .containerBackground(Color(red: 0.95, green: 0.9, blue: 0.87), for: .widget)
+            } else {
+                CustomizeWidgetView(entry: entry, customizeNum: .constant(2))
+                    .padding()
+                    .background(Color(red: 0.95, green: 0.9, blue: 0.87))
+            }
+        }
+        .configurationDisplayName("自訂倒數小工具2")
+        .description("放置屬於你的倒數小工具")
+        .supportedFamilies([.systemSmall])
+    }
+}
+
+struct CountDownDateCustomizeWidget3: Widget {
+    let kind: String = "CountDownDateCustomizeWidget3"
+
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: Provider()) { entry in
+            if #available(iOS 17.0, *) {
+                CustomizeWidgetView(entry: entry, customizeNum: .constant(3))
+                    .containerBackground(Color(red: 0.95, green: 0.9, blue: 0.87), for: .widget)
+            } else {
+                CustomizeWidgetView(entry: entry, customizeNum: .constant(3))
+                    .padding()
+                    .background(Color(red: 0.95, green: 0.9, blue: 0.87))
+            }
+        }
+        .configurationDisplayName("自訂倒數小工具3")
         .description("放置屬於你的倒數小工具")
         .supportedFamilies([.systemSmall])
     }
@@ -94,30 +139,33 @@ struct CountDownDateCustomizeWidget1: Widget {
 #Preview(as: .systemSmall) {
     CountDownDateCustomizeWidget1()
 } timeline: {
-    SimpleEntry(date: .now, title: "模擬考", targetDate: DateComponents(calendar: .current, year: 2024, month: 11, day: 10).date!, countDownNum: 140)
-    SimpleEntry(date: .now, title: "學測", targetDate: DateComponents(calendar: .current, year: 2024, month: 1, day: 20).date!, countDownNum: 48)
+    SimpleEntry(date: .now, title: ["模擬考","模擬","模"], targetDate: [DateComponents(calendar: .current, year: 2024, month: 11, day: 10).date!, DateComponents(calendar: .current, year: 2024, month: 11, day: 10).date!, DateComponents(calendar: .current, year: 2024, month: 11, day: 10).date!], countDownNum: [140, 140, 140])
+//    SimpleEntry(date: .now, title: "學測", targetDate: DateComponents(calendar: .current, year: 2024, month: 1, day: 20).date!, countDownNum: 48)
 }
 
 struct CustomizeWidgetView: View {
     var entry: Provider.Entry
+    
+    @Binding var customizeNum: Int
     
     @State var titleCount: Int = 0
 
     var body: some View {
         GeometryReader {geo in
             VStack(alignment: .center) {
-                HStack(alignment: .bottom){
+                HStack(alignment:titleCount<4 ? .bottom : .center){
                     Image(systemName: "calendar.badge.clock")
                         .resizable()
                         .scaledToFit()
                         .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.5))
                         .frame(height: 29)
-                    Text(entry.title)
-                        .font(.system(size:titleCount<4 ? 24 : 20))
+                    Text(entry.title[customizeNum-1])
+                        .font(.system(size:titleCount<4 ? 24 : 16))
                         .fontWeight(.bold)
                         .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.5))
-                        .frame(height: 30,alignment: .topLeading)
+                        .frame(height: 30,alignment: .center)
                         .padding(.leading,-5)
+                        .padding(.top, -3)
                     if titleCount<3 {
                         Text("倒數")
                             .font(.system(size: 18))
@@ -132,10 +180,10 @@ struct CustomizeWidgetView: View {
 //                    .frame(height: 10)
                 
                 HStack(alignment: .firstTextBaseline){
-                    Text(String(entry.countDownNum))
+                    Text(String(entry.countDownNum[customizeNum-1]))
                         .font(.system(size: 50, design: .rounded))
                         .foregroundColor(Color(red: 1, green: 0.31, blue: 0.11))
-                        .frame(width: entry.countDownNum>99 ? 100:80)
+                        .frame(width: entry.countDownNum[customizeNum-1]>99 ? 110:80)
 //                        .shadow(radius: 1,x:1,y:1)
                         .fontWeight(.heavy)
                     
@@ -150,13 +198,14 @@ struct CustomizeWidgetView: View {
                     .padding(.top,-2)
                 Spacer()
                     .frame(height:10)
-                CountDownBarView(targetDate: .constant(entry.targetDate))
+                CountDownBarView(targetDate: .constant(entry.targetDate[customizeNum-1]))
                 
             }.frame(width: geo.size.width,height: geo.size.height)
             
 //                .border(Color.black)
         }.onAppear{
-            titleCount = entry.title.count
+            titleCount = entry.title[customizeNum-1].count
+            print(customizeNum)
         }
         
     }
