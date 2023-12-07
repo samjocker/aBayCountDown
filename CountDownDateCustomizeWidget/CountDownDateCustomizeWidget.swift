@@ -59,7 +59,6 @@ struct Provider: TimelineProvider {
     }
 }
 
-
 struct SimpleEntry: TimelineEntry {
     let date: Date
 //    let emoji: String
@@ -67,14 +66,6 @@ struct SimpleEntry: TimelineEntry {
     let targetDate: [Date]
     let countDownNum: [Int]
 }
-
-//struct CountDownDateCustomizeWidgetEntryView : View {
-//    var entry: Provider.Entry
-//
-//    var body: some View {
-//        CustomizeWidgetView(entry: entry, customizeNum: .constant(2))
-//    }
-//}
 
 struct CountDownDateCustomizeWidget1: Widget {
     let kind: String = "CountDownDateCustomizeWidget1"
@@ -136,13 +127,6 @@ struct CountDownDateCustomizeWidget3: Widget {
     }
 }
 
-#Preview(as: .systemSmall) {
-    CountDownDateCustomizeWidget1()
-} timeline: {
-    SimpleEntry(date: .now, title: ["模擬考","模擬","模"], targetDate: [DateComponents(calendar: .current, year: 2024, month: 11, day: 10).date!, DateComponents(calendar: .current, year: 2024, month: 11, day: 10).date!, DateComponents(calendar: .current, year: 2024, month: 11, day: 10).date!], countDownNum: [140, 140, 140])
-//    SimpleEntry(date: .now, title: "學測", targetDate: DateComponents(calendar: .current, year: 2024, month: 1, day: 20).date!, countDownNum: 48)
-}
-
 struct CustomizeWidgetView: View {
     var entry: Provider.Entry
     
@@ -183,7 +167,7 @@ struct CustomizeWidgetView: View {
                     Text(String(entry.countDownNum[customizeNum-1]))
                         .font(.system(size: 50, design: .rounded))
                         .foregroundColor(Color(red: 1, green: 0.31, blue: 0.11))
-                        .frame(width: entry.countDownNum[customizeNum-1]>99 ? 110:80)
+                        .frame(width: entry.countDownNum[customizeNum-1]>99 ? 110:entry.countDownNum[customizeNum-1]>9 ? 80:50)
 //                        .shadow(radius: 1,x:1,y:1)
                         .fontWeight(.heavy)
                     
@@ -205,7 +189,7 @@ struct CustomizeWidgetView: View {
 //                .border(Color.black)
         }.onAppear{
             titleCount = entry.title[customizeNum-1].count
-            print(customizeNum)
+            print(entry.countDownNum)
         }
         
     }
@@ -224,66 +208,78 @@ struct CountDownBarView: View {
     @State var startDistYear1: Int = 0
     @State var startDistYear2: Int = 0
     @State var haveDoubleLine: Bool = false
+    @State var outOfBarRange: Bool = false
     
     var body: some View {
         ZStack{
-            Rectangle()
-                .frame(width: 120,height: leftDateYear2>0 ? 21:10)
-                .foregroundStyle(Color(red: 0.85, green: 0.85, blue: 0.85))
-                .cornerRadius(4)
-            Rectangle()
-                .frame(width:CGFloat(120*(Float(leftDateYear2)/365.0)),height: 10)
-                .foregroundStyle(Color.orange)
-                .cornerRadius(4)
-                .position(x:CGFloat(120*(Float(startDistYear2+leftDateYear2/2)/365.0)),y:5)
-            Rectangle()
-                .frame(width:CGFloat(120*(Float(leftDateYear1)/365.0)),height: 10)
-                .foregroundStyle(Color.orange)
-                .cornerRadius(4)
-                .position(x:CGFloat(120*(Float(startDistYear1+leftDateYear1/2)/365.0)),y:haveDoubleLine ? 15.5 : 10)
-            VStack(spacing:2){
-                HStack(alignment: .top, spacing: 9) {
-                    ForEach(0..<11){i in
-                        Rectangle()
-                            .frame(width: 1,height: 5)
-                            .cornerRadius(1)
-                            .foregroundStyle(Color.gray)
-                    }
-                }
-                
-                if leftDateYear2 > 0 {
+            if !outOfBarRange {
+                ZStack{
                     Rectangle()
-                        .frame(width: 110,height: 1)
-                        .cornerRadius(1)
-                        .foregroundStyle(Color.gray)
-                    HStack(alignment: .top, spacing: 9) {
-                        ForEach(0..<11){i in
+                        .frame(width: 120,height: leftDateYear2>0 ? 21:10)
+                        .foregroundStyle(Color(red: 0.85, green: 0.85, blue: 0.85))
+                        .cornerRadius(4)
+                    Rectangle()
+                        .frame(width:CGFloat(120*(Float(leftDateYear2)/365.0)),height: 10)
+                        .foregroundStyle(Color.orange)
+                        .cornerRadius(4)
+                        .position(x:CGFloat(120*(Float(startDistYear2+leftDateYear2/2)/365.0)),y:5)
+                    Rectangle()
+                        .frame(width:CGFloat(120*(Float(leftDateYear1)/365.0)),height: 10)
+                        .foregroundStyle(Color.orange)
+                        .cornerRadius(4)
+                        .position(x:CGFloat(120*(Float(startDistYear1+leftDateYear1/2)/365.0)),y:haveDoubleLine ? 15.5 : 10)
+                    VStack(spacing:2){
+                        HStack(alignment: .top, spacing: 9) {
+                            ForEach(0..<11){i in
+                                Rectangle()
+                                    .frame(width: 1,height: 5)
+                                    .cornerRadius(1)
+                                    .foregroundStyle(Color.gray)
+                            }
+                        }
+                        
+                        if leftDateYear2 > 0 {
                             Rectangle()
-                                .frame(width: 1,height: 5)
+                                .frame(width: 110,height: 1)
                                 .cornerRadius(1)
                                 .foregroundStyle(Color.gray)
+                            HStack(alignment: .top, spacing: 9) {
+                                ForEach(0..<11){i in
+                                    Rectangle()
+                                        .frame(width: 1,height: 5)
+                                        .cornerRadius(1)
+                                        .foregroundStyle(Color.gray)
+                                }
+                            }
                         }
                     }
-                }
+                    VStack(alignment:.leading, spacing:0){
+                        Image(systemName: "flag.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width:8)
+                            .foregroundStyle(Color.red)
+                            .padding(.leading,-0.3)
+                        Line()
+                            .stroke(style: .init(dash: [2]))
+                            .foregroundStyle(Color.red)
+                            .frame(width:1, height:10)
+                        
+                    }.position(x:startDistYear2>0 ? CGFloat(120*(Float(startDistYear2)/365.0)+3.5):CGFloat(120*(Float(startDistYear1)/365.0)+3.5),y:startDistYear2>0 ? 0:5)
+                    
+                }.frame(width: 120,height: leftDateYear2>0 ? 21:21)
+            } else {
+                VeryLongDayBarView()
             }
-            VStack(alignment:.leading, spacing:0){
-                Image(systemName: "flag.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width:8)
-                    .foregroundStyle(Color.red)
-                    .padding(.leading,-0.3)
-                Line()
-                    .stroke(style: .init(dash: [2]))
-                    .foregroundStyle(Color.red)
-                    .frame(width:1, height:10)
-                
-            }.position(x:startDistYear2>0 ? CGFloat(120*(Float(startDistYear2)/365.0)+3.5):CGFloat(120*(Float(startDistYear1)/365.0)+3.5),y:startDistYear2>0 ? 0:5)
-            
-        }.frame(width: 120,height: leftDateYear2>0 ? 21:21)
+        }
         .onAppear{
             leftDateYear1 = getCountDownNum(targetDate: targetDate, lineNum: 1)
             leftDateYear2 = getCountDownNum(targetDate: targetDate, lineNum: 2)
+            if leftDateYear2>366 {
+                outOfBarRange = true
+            } else {
+                outOfBarRange = false
+            }
             if leftDateYear2>0 {
                 haveDoubleLine = true
             } else {
@@ -352,6 +348,36 @@ struct CountDownBarView: View {
         }
     }
 }
+
+struct VeryLongDayBarView: View {
+    
+    var body: some View {
+        ZStack{
+            Rectangle()
+                .frame(width: 120, height: 20)
+                .cornerRadius(10)
+                .foregroundStyle(Color(red: 1, green: 0.53, blue: 0.34))
+            HStack {
+                Image(systemName: "cup.and.saucer.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 17)
+                Text("還有一陣子～")
+                    .font(.system(size: 12))
+                    .fontWeight(.bold)
+            }.foregroundStyle(Color.white)
+        }
+    }
+}
+
+#Preview(as: .systemSmall) {
+    CountDownDateCustomizeWidget1()
+} timeline: {
+    SimpleEntry(date: .now, title: ["模擬考","模擬","模"], targetDate: [DateComponents(calendar: .current, year: 2025, month: 12, day: 10).date!, DateComponents(calendar: .current, year: 2024, month: 11, day: 10).date!, DateComponents(calendar: .current, year: 2024, month: 11, day: 10).date!], countDownNum: [3, 140, 140])
+//    SimpleEntry(date: .now, title: "學測", targetDate: DateComponents(calendar: .current, year: 2024, month: 1, day: 20).date!, countDownNum: 48)
+}
+
+
 //
 //#Preview {
 //    static var previews: some View {

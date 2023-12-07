@@ -25,7 +25,8 @@ struct HomePage: View {
     @State var bigTestDate: Date = .now
     
     @State var customeWidgetNameList: [String] = ["自訂1","自訂2","自訂3"]
-    @State var customeWidgetDateList: [String] = ["2024/2/23", "2024/4/03", "2024/7/31"]
+//    @State var customeWidgetDateList: [String] = ["2024/2/23", "2024/4/03", "2024/7/31"]
+    @State var customeWidgetDateList: [Date] = [DateComponents(calendar: .current, year: 2024, month: 2, day: 23).date!, DateComponents(calendar: .current, year: 2024, month: 4, day: 3).date!, DateComponents(calendar: .current, year: 2024, month: 7, day: 31).date!]
     
     let bigTestDateDict: [String:String] = ["CAP":"2024/05/18", "TVE":"2024/04/27", "GSAT":"2024/01/20"]
     let bigTestNameDict: [String:String] = ["CAP":"會考", "TVE":"統測", "GSAT":"學測"]
@@ -97,7 +98,7 @@ struct HomePage: View {
                                         }
                                         .frame(width:180)
                                     
-                                    CustomizeWidgetPreviewRectangle(title: $customeWidgetNameList[i], targetDateString: $customeWidgetDateList[i])
+                                    CustomizeWidgetPreviewRectangle(title: $customeWidgetNameList[i], targetDate: $customeWidgetDateList[i])
                                         .background{
                                             Color(red: 0.95, green: 0.9, blue: 0.87)
                                         }
@@ -163,9 +164,9 @@ struct HomePage: View {
             customeWidgetNameList[0] = customeWidgetNameSave1
             customeWidgetNameList[1] = customeWidgetNameSave2
             customeWidgetNameList[2] = customeWidgetNameSave3
-            customeWidgetDateList[0] = customeTargetDateSave1
-            customeWidgetDateList[1] = customeTargetDateSave2
-            customeWidgetDateList[2] = customeTargetDateSave3
+            customeWidgetDateList[0] = dateFormatter.date(from: customeTargetDateSave1)!
+            customeWidgetDateList[1] = dateFormatter.date(from: customeTargetDateSave2)!
+            customeWidgetDateList[2] = dateFormatter.date(from: customeTargetDateSave3)!
         }
         
     }
@@ -245,7 +246,7 @@ struct EditDatePage: View {
     @AppStorage("customeWidgetName3", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeWidgetNameSave3: String = "自訂3"
     @Binding var widgetNum: Int
     @Binding var customeWidgetNameList: [String]
-    @Binding var customeWidgetDateList: [String]
+    @Binding var customeWidgetDateList: [Date]
     
     @State var targetDate: Date = .now
     @State var customeWidgetName: String = "自訂"
@@ -306,19 +307,19 @@ struct EditDatePage: View {
                                     customeTargetDateSave1 = dateString
                                     customeWidgetNameSave1 = customeWidgetName
                                     customeWidgetNameList[0] = customeWidgetName
-                                    customeWidgetDateList[0] = dateString
+                                    customeWidgetDateList[0] = targetDate
                                     WidgetCenter.shared.reloadTimelines(ofKind: "CountDownDateCustomizeWidget1")
                                 case 2:
                                     customeTargetDateSave2 = dateString
                                     customeWidgetNameSave2 = customeWidgetName
                                     customeWidgetNameList[1] = customeWidgetName
-                                    customeWidgetDateList[1] = dateString
+                                    customeWidgetDateList[1] = targetDate
                                     WidgetCenter.shared.reloadTimelines(ofKind: "CountDownDateCustomizeWidget2")
                                 case 3:
                                     customeTargetDateSave3 = dateString
                                     customeWidgetNameSave3 = customeWidgetName
                                     customeWidgetNameList[2] = customeWidgetName
-                                    customeWidgetDateList[2] = dateString
+                                    customeWidgetDateList[2] = targetDate
                                     WidgetCenter.shared.reloadTimelines(ofKind: "CountDownDateCustomizeWidget3")
                                 default:
                                     print("Error Rom Save")
@@ -408,10 +409,10 @@ struct WidgetPreviewRectangle: View {
 struct CustomizeWidgetPreviewRectangle: View {
     
     @Binding var title: String
-    @Binding var targetDateString: String
+    @Binding var targetDate: Date
     
     @State var countDownNum: Int = 0
-    @State var targetDate: Date = .now
+//    @State var targetDate: Date = .now
     @State var titleCount: Int = 0
 
     var body: some View {
@@ -468,10 +469,6 @@ struct CustomizeWidgetPreviewRectangle: View {
 //                .border(Color.black)
         }.onAppear{
             titleCount = title.count
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy/MM/dd"
-            let testDay = dateFormatter.date(from: targetDateString)!
-            targetDate = testDay
             let days = Calendar.current.dateComponents([.day], from: .now, to: targetDate)
             countDownNum = Int(days.day!+1)
         }
@@ -482,10 +479,10 @@ struct CustomizeWidgetPreviewRectangle: View {
     HomePage()
 }
 
-#Preview {
-    EditBigTestDatePage(aleadySaveTestType: .constant("TVE"),aleadySaveTestDate: .constant(.now))
-}
-
-#Preview {
-    EditDatePage(widgetNum: .constant(1), customeWidgetNameList: .constant(["自訂one","自訂two","自訂three"]), customeWidgetDateList: .constant(["2023/12/20", "2023/12/20", "2023/12/20"]))
-}
+//#Preview {
+//    EditBigTestDatePage(aleadySaveTestType: .constant("TVE"),aleadySaveTestDate: .constant(.now))
+//}
+//
+//#Preview {
+//    EditDatePage(widgetNum: .constant(1), customeWidgetNameList: .constant(["自訂one","自訂two","自訂three"]), customeWidgetDateList: .constant(["2023/12/20", "2023/12/20", "2023/12/20"]))
+//}
