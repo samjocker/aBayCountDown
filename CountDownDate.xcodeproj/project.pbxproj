@@ -22,14 +22,21 @@
 		2287EDF22B17752500315216 /* CountDownDateWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2287EDF12B17752500315216 /* CountDownDateWidget.swift */; };
 		2287EDF42B17752600315216 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2287EDF32B17752600315216 /* Assets.xcassets */; };
 		2287EDF82B17752600315216 /* CountDownDateWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2287EDE82B17752500315216 /* CountDownDateWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		229AC74D2B2EDC8100BEA82E /* DataFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229AC74C2B2EDC8100BEA82E /* DataFormat.swift */; };
+		229AC74E2B2EDC8100BEA82E /* DataFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229AC74C2B2EDC8100BEA82E /* DataFormat.swift */; };
+		229AC74F2B2EDC8100BEA82E /* DataFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229AC74C2B2EDC8100BEA82E /* DataFormat.swift */; };
 		22C5F75A2B1E02EB000F0E37 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2287EDEA2B17752500315216 /* WidgetKit.framework */; };
 		22C5F75B2B1E02EB000F0E37 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2287EDEC2B17752500315216 /* SwiftUI.framework */; };
 		22C5F75E2B1E02EB000F0E37 /* CountDownDateCustomizeWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C5F75D2B1E02EB000F0E37 /* CountDownDateCustomizeWidgetBundle.swift */; };
 		22C5F7602B1E02EB000F0E37 /* CountDownDateCustomizeWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C5F75F2B1E02EB000F0E37 /* CountDownDateCustomizeWidget.swift */; };
 		22C5F7622B1E02EC000F0E37 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22C5F7612B1E02EC000F0E37 /* Assets.xcassets */; };
 		22C5F7662B1E02EC000F0E37 /* CountDownDateCustomizeWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 22C5F7592B1E02EB000F0E37 /* CountDownDateCustomizeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		22C930402B2D45C0006470B1 /* lockScreenTutorial.MP4 in Resources */ = {isa = PBXBuildFile; fileRef = 22C9303F2B2D45C0006470B1 /* lockScreenTutorial.MP4 */; };
 		22CFEECE2B1C79EF008B7949 /* CountDownBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CFEECD2B1C79EF008B7949 /* CountDownBarView.swift */; };
 		22CFEECF2B1C79EF008B7949 /* CountDownBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22CFEECD2B1C79EF008B7949 /* CountDownBarView.swift */; };
+		22FDD72D2B2AC10700AABD0B /* ToDoTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FDD72C2B2AC10700AABD0B /* ToDoTimeLine.swift */; };
+		22FDD72E2B2AC10700AABD0B /* ToDoTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FDD72C2B2AC10700AABD0B /* ToDoTimeLine.swift */; };
+		22FDD72F2B2AC10700AABD0B /* ToDoTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22FDD72C2B2AC10700AABD0B /* ToDoTimeLine.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,15 +105,18 @@
 		2287EDF12B17752500315216 /* CountDownDateWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownDateWidget.swift; sourceTree = "<group>"; };
 		2287EDF32B17752600315216 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2287EDF52B17752600315216 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		229AC74C2B2EDC8100BEA82E /* DataFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFormat.swift; sourceTree = "<group>"; };
 		22C5F7592B1E02EB000F0E37 /* CountDownDateCustomizeWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CountDownDateCustomizeWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		22C5F75D2B1E02EB000F0E37 /* CountDownDateCustomizeWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownDateCustomizeWidgetBundle.swift; sourceTree = "<group>"; };
 		22C5F75F2B1E02EB000F0E37 /* CountDownDateCustomizeWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownDateCustomizeWidget.swift; sourceTree = "<group>"; };
 		22C5F7612B1E02EC000F0E37 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		22C5F7632B1E02EC000F0E37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		22C5F76A2B1E068E000F0E37 /* CountDownDateCustomizeWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CountDownDateCustomizeWidgetExtension.entitlements; sourceTree = "<group>"; };
+		22C9303F2B2D45C0006470B1 /* lockScreenTutorial.MP4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = lockScreenTutorial.MP4; sourceTree = "<group>"; };
 		22CFEECD2B1C79EF008B7949 /* CountDownBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownBarView.swift; sourceTree = "<group>"; };
 		22CFEED02B1C7CE7008B7949 /* CountDownDateWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CountDownDateWidgetExtension.entitlements; sourceTree = "<group>"; };
 		22CFEED12B1C7D15008B7949 /* CountDownDate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CountDownDate.entitlements; sourceTree = "<group>"; };
+		22FDD72C2B2AC10700AABD0B /* ToDoTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTimeLine.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +197,9 @@
 				2287EDBA2B1774F900315216 /* CountDownDateApp.swift */,
 				2287EDBC2B1774F900315216 /* ContentView.swift */,
 				225E34272B1AE9140051F5FC /* HomePage.swift */,
+				22FDD72C2B2AC10700AABD0B /* ToDoTimeLine.swift */,
+				229AC74C2B2EDC8100BEA82E /* DataFormat.swift */,
+				22C9303F2B2D45C0006470B1 /* lockScreenTutorial.MP4 */,
 				2287EDBE2B1774FA00315216 /* Assets.xcassets */,
 				2287EDC02B1774FA00315216 /* Preview Content */,
 			);
@@ -388,8 +401,8 @@
 				2287EDB62B1774F900315216 /* CountDownDate */,
 				2287EDC62B1774FA00315216 /* CountDownDateTests */,
 				2287EDD02B1774FA00315216 /* CountDownDateUITests */,
-				2287EDE72B17752500315216 /* CountDownDateWidgetExtension */,
 				22C5F7582B1E02EB000F0E37 /* CountDownDateCustomizeWidgetExtension */,
+				2287EDE72B17752500315216 /* CountDownDateWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -401,6 +414,7 @@
 			files = (
 				2287EDC22B1774FA00315216 /* Preview Assets.xcassets in Resources */,
 				2287EDBF2B1774FA00315216 /* Assets.xcassets in Resources */,
+				22C930402B2D45C0006470B1 /* lockScreenTutorial.MP4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,6 +457,8 @@
 			files = (
 				2287EDBD2B1774F900315216 /* ContentView.swift in Sources */,
 				2287EDBB2B1774F900315216 /* CountDownDateApp.swift in Sources */,
+				229AC74D2B2EDC8100BEA82E /* DataFormat.swift in Sources */,
+				22FDD72D2B2AC10700AABD0B /* ToDoTimeLine.swift in Sources */,
 				22CFEECE2B1C79EF008B7949 /* CountDownBarView.swift in Sources */,
 				225E34282B1AE9140051F5FC /* HomePage.swift in Sources */,
 			);
@@ -471,6 +487,8 @@
 			files = (
 				2287EDF02B17752500315216 /* CountDownDateWidgetBundle.swift in Sources */,
 				2287EDF22B17752500315216 /* CountDownDateWidget.swift in Sources */,
+				229AC74F2B2EDC8100BEA82E /* DataFormat.swift in Sources */,
+				22FDD72E2B2AC10700AABD0B /* ToDoTimeLine.swift in Sources */,
 				22CFEECF2B1C79EF008B7949 /* CountDownBarView.swift in Sources */,
 				225E34292B1AE9140051F5FC /* HomePage.swift in Sources */,
 			);
@@ -481,6 +499,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				22C5F75E2B1E02EB000F0E37 /* CountDownDateCustomizeWidgetBundle.swift in Sources */,
+				22FDD72F2B2AC10700AABD0B /* ToDoTimeLine.swift in Sources */,
+				229AC74E2B2EDC8100BEA82E /* DataFormat.swift in Sources */,
 				22C5F7602B1E02EB000F0E37 /* CountDownDateCustomizeWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -654,15 +674,15 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = Sam.CountDownDate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -690,15 +710,15 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = Sam.CountDownDate;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

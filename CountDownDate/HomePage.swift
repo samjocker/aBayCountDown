@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import AVKit
+import AVFoundation
 import WidgetKit
 
 struct HomePage: View {
-    
+
     @Environment(\.colorScheme) var colorScheme
     
     @AppStorage("whichBigTest", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var whichBigTest: String = "TVE"
@@ -23,6 +25,7 @@ struct HomePage: View {
     @State var selectId: Int = 0
     @State var bigTestType: String = "TVE"
     @State var bigTestDate: Date = .now
+    @State var showSheet: Bool = false
     
     @State var customeWidgetNameList: [String] = ["自訂1","自訂2","自訂3"]
 //    @State var customeWidgetDateList: [String] = ["2024/2/23", "2024/4/03", "2024/7/31"]
@@ -30,6 +33,7 @@ struct HomePage: View {
     
     let bigTestDateDict: [String:String] = ["CAP":"2024/05/18", "TVE":"2024/04/27", "GSAT":"2024/01/20"]
     let bigTestNameDict: [String:String] = ["CAP":"會考", "TVE":"統測", "GSAT":"學測"]
+    let player = AVPlayer()
     
     var body: some View {
         NavigationStack(){
@@ -66,9 +70,10 @@ struct HomePage: View {
                                     }
                                 Spacer()
                                     .frame(height: 20)
-                                NavigationLink() {
-                                    EditBigTestDatePage(aleadySaveTestType: $bigTestType,aleadySaveTestDate: $bigTestDate)
-                                } label: {
+                                
+                                Button(action: {
+                                    showSheet.toggle()
+                                }, label: {
                                     ZStack {
                                         Rectangle()
                                             .foregroundColor(.clear)
@@ -84,7 +89,11 @@ struct HomePage: View {
                                         content.opacity(phase.isIdentity ? 1.0:0.0)
                                             .scaleEffect(phase.isIdentity ? 1.0:0.6)
                                     }
-                                }.padding(.bottom,5)
+                                }).sheet(isPresented: $showSheet) {
+                                    EditBigTestDatePage(aleadySaveTestType: $bigTestType,aleadySaveTestDate: $bigTestDate)
+                                        .presentationDetents([.medium, .large])
+                                        .presentationBackground(.red)
+                                }
                             }
                             ForEach(0..<3) { i in
                                 VStack{
@@ -145,15 +154,13 @@ struct HomePage: View {
 //                    .background(Color.white)
                 }
                 .navigationTitle("初四倒數")
-//                .background(colorScheme == .light ? Gradient(colors: [Color.white, Color(UIColor.secondarySystemBackground)]) : Gradient(colors: [Color(UIColor.systemGroupedBackground)]))
-                
-                
-//                    .toolbarBackground(Color(red: 0.95, green: 0.9, blue: 0.87).opacity(0.5), for: .navigationBar)
-            }.background {
-//                Color(red: 0.95, green: 0.95, blue: 0.97)
-                Color(UIColor.secondarySystemBackground)
-                    .ignoresSafeArea()
             }
+            .background {
+                Color(Color(red: 0.95, green: 0.9, blue: 0.87))
+                    .ignoresSafeArea()
+            }.toolbarBackground(
+                Color(red: 0.97, green: 0.92, blue: 0.88),
+                for: .navigationBar)
 
         }.onAppear{
             bigTestType = whichBigTest
@@ -202,34 +209,26 @@ struct EditBigTestDatePage: View {
                         }.onAppear{
                             bigTestType = whichBigTest
                             aleadySaveTestType = whichBigTest
-//                            print(bigTestType)
                         }
                     }
-//                    Button("testButton"){
-//                        let dateFormatter = DateFormatter()
-//                        dateFormatter.dateFormat = "yyyy/MM/dd"
-//                        let testDay = dateFormatter.date(from: bigTestDateDict[bigTestType]!)
-//                        let days = Calendar.current.dateComponents([.day], from: .now, to: testDay!)
-//                        print(String(days.day!+1))
-//                    }
                 }
                 
             }.navigationTitle("小工具編輯")
-                .toolbar {
-                    ToolbarItemGroup(placement:.topBarTrailing){
-                        Button("儲存"){
-                            self.presentationMode.wrappedValue.dismiss()
-                            whichBigTest = bigTestType
-                            aleadySaveTestType = bigTestType
-                            let dateFormatter = DateFormatter()
-                            dateFormatter.dateFormat = "yyyy/MM/dd"
-                            let testDay = dateFormatter.date(from: bigTestDateDict[bigTestType]!)
-                            aleadySaveTestDate = testDay!
-                            WidgetCenter.shared.reloadTimelines(ofKind: "CountDownDateWidget")
-                            print("save-"+bigTestType)
-                        }
+            .toolbar {
+                ToolbarItemGroup(placement:.topBarTrailing){
+                    Button("儲存"){
+                        self.presentationMode.wrappedValue.dismiss()
+                        whichBigTest = bigTestType
+                        aleadySaveTestType = bigTestType
+                        let dateFormatter = DateFormatter()
+                        dateFormatter.dateFormat = "yyyy/MM/dd"
+                        let testDay = dateFormatter.date(from: bigTestDateDict[bigTestType]!)
+                        aleadySaveTestDate = testDay!
+                        WidgetCenter.shared.reloadTimelines(ofKind: "CountDownDateWidget")
+                        print("save-"+bigTestType)
                     }
                 }
+            }
         }
     }
 }
@@ -271,7 +270,8 @@ struct EditDatePage: View {
                         }
                         
                     }
-                }.onAppear{
+                }
+                .onAppear{
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "yyyy/MM/dd"
                     switch widgetNum {
@@ -290,7 +290,8 @@ struct EditDatePage: View {
                     
                 }
                 
-            }.navigationTitle("小工具編輯")
+            }
+            .navigationTitle("小工具編輯")
                 .toolbar {
                     ToolbarItemGroup(placement:.topBarTrailing){
                         Button("儲存"){
@@ -344,7 +345,10 @@ struct WidgetPreviewRectangle: View {
     
     @Binding var titleText: String
     @Binding var targetDate: Date
-    @State var downDays:Int = 100
+    
+    @State var downDays: Int = 100
+    @State var isFinish: Bool = false
+    @State var isToday: Bool = false
     
     var body: some View {
         GeometryReader {geo in
@@ -373,10 +377,10 @@ struct WidgetPreviewRectangle: View {
 //                    .frame(height: 10)
                 
                 HStack(alignment: .firstTextBaseline){
-                    Text(String(downDays))
+                    Text(isToday ? "當":String(downDays))
                         .font(.system(size: 50, design: .rounded))
                         .foregroundColor(Color(red: 1, green: 0.31, blue: 0.11))
-                        .frame(width: downDays>99 ? 100:84)
+                        .frame(width: downDays>99||downDays < -99 ? 110:downDays>9||downDays<0 ? 80:50)
 //                        .shadow(radius: 1,x:1,y:1)
                         .fontWeight(.heavy)
                     
@@ -391,13 +395,28 @@ struct WidgetPreviewRectangle: View {
                     .padding(.top,-2)
                 Spacer()
                     .frame(height:12)
-                CountDownBarView(targetDate: $targetDate)
+                CountDownBarView(targetDate: $targetDate, isFinish: $isFinish)
                 
             }.frame(width: geo.size.width,height: geo.size.height)
                 .onAppear{
                     let days = Calendar.current.dateComponents([.day], from: .now, to: targetDate)
-//                    print(String(days.day!+1))
-                    downDays = days.day!+1
+                    if targetDate <= .now {
+                        isFinish = true
+                        downDays = days.day!
+                    } else {
+                        isFinish = false
+                        downDays = days.day!+1
+                    }
+                    let dateForatter = DateFormatter()
+                    dateForatter.dateFormat = "yyyy/MM/dd"
+                    let targetDateCheck = dateForatter.string(from: targetDate)
+                    let todayCheck = dateForatter.string(from: .now)
+                    if targetDateCheck == todayCheck {
+                        isToday = true
+                    } else {
+                        isToday = false
+                    }
+                    
                 }
             
 //                .border(Color.black)
@@ -414,12 +433,14 @@ struct CustomizeWidgetPreviewRectangle: View {
     @State var countDownNum: Int = 0
 //    @State var targetDate: Date = .now
     @State var titleCount: Int = 0
+    @State var isFinish: Bool = false
+    @State var isToday: Bool = false
 
     var body: some View {
         GeometryReader {geo in
             VStack(alignment: .center) {
                 HStack(alignment: .bottom){
-                    Image(systemName: "calendar.badge.clock")
+                    Image(systemName:isFinish ? "calendar.badge.checkmark":"calendar.badge.clock")
                         .resizable()
                         .scaledToFit()
                         .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.5))
@@ -444,10 +465,10 @@ struct CustomizeWidgetPreviewRectangle: View {
 //                    .frame(height: 10)
                 
                 HStack(alignment: .firstTextBaseline){
-                    Text(String(countDownNum))
+                    Text(isToday ? "當":String(countDownNum))
                         .font(.system(size: 50, design: .rounded))
                         .foregroundColor(Color(red: 1, green: 0.31, blue: 0.11))
-                        .frame(width: countDownNum>99 ? 110:80)
+                        .frame(width: countDownNum>99||countDownNum < -99 ? 110:countDownNum>9||countDownNum<0 ? 80:50)
 //                        .shadow(radius: 1,x:1,y:1)
                         .fontWeight(.heavy)
                     
@@ -462,15 +483,31 @@ struct CustomizeWidgetPreviewRectangle: View {
                     .padding(.top,-2)
                 Spacer()
                     .frame(height:10)
-                CountDownBarView(targetDate: .constant(targetDate))
+                CountDownBarView(targetDate: .constant(targetDate), isFinish: $isFinish)
                 
             }.frame(width: geo.size.width,height: geo.size.height)
             
 //                .border(Color.black)
         }.onAppear{
             titleCount = title.count
-            let days = Calendar.current.dateComponents([.day], from: .now, to: targetDate)
-            countDownNum = Int(days.day!+1)
+            if targetDate <= .now {
+                isFinish = true
+                let days = Calendar.current.dateComponents([.day], from: .now, to: targetDate)
+                countDownNum = Int(days.day!)
+            } else {
+                isFinish = false
+                let days = Calendar.current.dateComponents([.day], from: .now, to: targetDate)
+                countDownNum = Int(days.day!+1)
+            }
+            let dateForatter = DateFormatter()
+            dateForatter.dateFormat = "yyyy/MM/dd"
+            let targetDateCheck = dateForatter.string(from: targetDate)
+            let todayCheck = dateForatter.string(from: .now)
+            if targetDateCheck == todayCheck {
+                isToday = true
+            } else {
+                isToday = false
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     
-    @AppStorage("whichBigTest", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var whichBigTest: String = "GSAT"
+    @AppStorage("whichBigTest", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var whichBigTest: String = "TVE"
     let bigTestDateDict: [String:String] = ["CAP":"2024/05/18", "TVE":"2024/04/27", "GSAT":"2024/01/20"]
     let bigTestNameDict: [String:String] = ["CAP":"會考", "TVE":"統測", "GSAT":"學測"]
 //    @State var targetDate: Date = .now
@@ -134,12 +134,15 @@ struct CountDownDateWidget: Widget {
 
 struct smallCountDownDateWidget: View {
     var entry: Provider.Entry
+    
+    @State var isFinish: Bool = false
+    @State var isToday: Bool = false
 
     var body: some View {
         GeometryReader {geo in
             VStack(alignment: .center) {
                 HStack(alignment: .bottom){
-                    Image(systemName: "calendar.badge.clock")
+                    Image(systemName:isFinish ? "calendar.badge.checkmark": "calendar.badge.clock")
                         .resizable()
                         .scaledToFit()
                         .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.5))
@@ -162,10 +165,10 @@ struct smallCountDownDateWidget: View {
 //                    .frame(height: 10)
                 
                 HStack(alignment: .firstTextBaseline){
-                    Text(String(entry.countDownNum))
+                    Text(isToday ? "當":String(entry.countDownNum))
                         .font(.system(size: 50, design: .rounded))
                         .foregroundColor(Color(red: 1, green: 0.31, blue: 0.11))
-                        .frame(width: entry.countDownNum>99 ? 100:80)
+                        .frame(width: entry.countDownNum>99||entry.countDownNum < -99 ? 100:entry.countDownNum>9||entry.countDownNum<0 ? 80:50)
 //                        .shadow(radius: 1,x:1,y:1)
                         .fontWeight(.heavy)
                     
@@ -180,11 +183,26 @@ struct smallCountDownDateWidget: View {
                     .padding(.top,-2)
                 Spacer()
                     .frame(height:10)
-                CountDownBarView(targetDate: .constant(entry.targetDate))
+                CountDownBarView(targetDate: .constant(entry.targetDate), isFinish: $isFinish)
                 
             }.frame(width: geo.size.width,height: geo.size.height)
             
 //                .border(Color.black)
+        }.onAppear {
+            if entry.targetDate <= .now {
+                isFinish = true
+            } else {
+                isFinish = false
+            }
+            let dateForatter = DateFormatter()
+            dateForatter.dateFormat = "yyyy/MM/dd"
+            let targetDateCheck = dateForatter.string(from: entry.targetDate)
+            let todayCheck = dateForatter.string(from: .now)
+            if targetDateCheck == todayCheck {
+                isToday = true
+            } else {
+                isToday = false
+            }
         }
         
     }
