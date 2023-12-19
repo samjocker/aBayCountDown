@@ -26,6 +26,7 @@ struct HomePage: View {
     @State var bigTestType: String = "TVE"
     @State var bigTestDate: Date = .now
     @State var showSheet: Bool = false
+    @State var showCustomSheet: [Bool] = [false, false, false]
     
     @State var customeWidgetNameList: [String] = ["自訂1","自訂2","自訂3"]
 //    @State var customeWidgetDateList: [String] = ["2024/2/23", "2024/4/03", "2024/7/31"]
@@ -92,7 +93,6 @@ struct HomePage: View {
                                 }).sheet(isPresented: $showSheet) {
                                     EditBigTestDatePage(aleadySaveTestType: $bigTestType,aleadySaveTestDate: $bigTestDate)
                                         .presentationDetents([.medium, .large])
-                                        .presentationBackground(.red)
                                 }
                             }
                             ForEach(0..<3) { i in
@@ -122,9 +122,9 @@ struct HomePage: View {
                                     
                                     Spacer()
                                         .frame(height: 20)
-                                    NavigationLink() {
-                                        EditDatePage(widgetNum: .constant(i+1), customeWidgetNameList: $customeWidgetNameList, customeWidgetDateList: $customeWidgetDateList)
-                                    } label: {
+                                    Button(action: {
+                                        showCustomSheet[i].toggle()
+                                    }, label: {
                                         ZStack {
                                             Rectangle()
                                                 .foregroundColor(.clear)
@@ -140,7 +140,29 @@ struct HomePage: View {
                                             content.opacity(phase.isIdentity ? 1.0:0.0)
                                                 .scaleEffect(phase.isIdentity ? 1.0:0.6)
                                         }
-                                    }.padding(.bottom,5)
+                                    }).sheet(isPresented: $showCustomSheet[i]) {
+                                        EditDatePage(widgetNum: .constant(i+1), customeWidgetNameList: $customeWidgetNameList, customeWidgetDateList: $customeWidgetDateList)
+                                            .presentationDetents([.medium, .large])
+                                    }
+//                                    NavigationLink() {
+//                                        EditDatePage(widgetNum: .constant(i+1), customeWidgetNameList: $customeWidgetNameList, customeWidgetDateList: $customeWidgetDateList)
+//                                    } label: {
+//                                        ZStack {
+//                                            Rectangle()
+//                                                .foregroundColor(.clear)
+//                                                .frame(width: 140, height: 50)
+//                                                .background(Color(red: 0.2, green: 0.3, blue: 0.5))
+//                                                .cornerRadius(25)
+//                                                .shadow(color:colorScheme == .light ?  Color(red: 0.2, green: 0.3, blue: 0.5).opacity(0.7) : Color(red: 0.4, green: 0.5, blue: 0.7).opacity(0.7), radius: 0, x: 0, y: 4)
+//                                            Text("編輯")
+//                                                .font(.system(size: 26))
+//                                                .fontWeight(.bold)
+//                                                .foregroundStyle(Color.white)
+//                                        }.scrollTransition { content,phase in
+//                                            content.opacity(phase.isIdentity ? 1.0:0.0)
+//                                                .scaleEffect(phase.isIdentity ? 1.0:0.6)
+//                                        }
+//                                    }.padding(.bottom,5)
                                 }
                             }
                         }
@@ -195,7 +217,7 @@ struct EditBigTestDatePage: View {
         NavigationStack{
             VStack{
                 Form {
-                    Section(header: Text("請選擇大考類別")) {
+                    Section(header: Text("請選擇大考類別"), footer: Text("請至主畫面或鎖定頁面新增此工具")) {
                         HStack(alignment:.center){
                             Image(systemName: "doc.append")
                             Text("大考類別")
@@ -262,7 +284,7 @@ struct EditDatePage: View {
                                 .textFieldStyle(.roundedBorder)
                         }
                     }
-                    Section(header: Text("設定目標日期")) {
+                    Section(header: Text("設定目標日期"), footer: Text("請至主畫面新增此工具")) {
                         HStack(alignment:.center){
                             Image(systemName: "calendar")
                             DatePicker("目標日期", selection: $targetDate, in: Date()..., displayedComponents: .date)

@@ -11,6 +11,7 @@ import SwiftUI
 struct Provider: TimelineProvider {
     
     @AppStorage("whichBigTest", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var whichBigTest: String = "TVE"
+    @AppStorage("todayToDoList", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var todayToDoList: String = ""
     let bigTestDateDict: [String:String] = ["CAP":"2024/05/18", "TVE":"2024/04/27", "GSAT":"2024/01/20"]
     let bigTestNameDict: [String:String] = ["CAP":"會考", "TVE":"統測", "GSAT":"學測"]
 //    @State var targetDate: Date = .now
@@ -18,11 +19,11 @@ struct Provider: TimelineProvider {
     
     func placeholder(in context: Context) -> SimpleEntry {
         
-        SimpleEntry(date: Date(), title: bigTestNameDict[whichBigTest]!, targetDate: getTargetDate(bigTestName: whichBigTest), countDownNum: getCountDownNum(bigTestName: whichBigTest))
+        SimpleEntry(date: Date(), title: bigTestNameDict[whichBigTest]!, targetDate: getTargetDate(bigTestName: whichBigTest), countDownNum: getCountDownNum(bigTestName: whichBigTest), toDoString: todayToDoList)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), title: bigTestNameDict[whichBigTest]!, targetDate: getTargetDate(bigTestName: whichBigTest), countDownNum: getCountDownNum(bigTestName: whichBigTest))
+        let entry = SimpleEntry(date: Date(), title: bigTestNameDict[whichBigTest]!, targetDate: getTargetDate(bigTestName: whichBigTest), countDownNum: getCountDownNum(bigTestName: whichBigTest), toDoString: todayToDoList)
         completion(entry)
     }
 
@@ -36,7 +37,7 @@ struct Provider: TimelineProvider {
 //        let entry = SimpleEntry(date: startOfDay, title: bigTestNameDict[whichBigTest]!, targetDate: getTargetDate(bigTestName: whichBigTest), countDownNum: getCountDownNum(bigTestName: whichBigTest))
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, title: bigTestNameDict[whichBigTest]!, targetDate: getTargetDate(bigTestName: whichBigTest), countDownNum: getCountDownNum(bigTestName: whichBigTest))
+            let entry = SimpleEntry(date: entryDate, title: bigTestNameDict[whichBigTest]!, targetDate: getTargetDate(bigTestName: whichBigTest), countDownNum: getCountDownNum(bigTestName: whichBigTest), toDoString: todayToDoList)
             entries.append(entry)
         }
 
@@ -68,6 +69,7 @@ struct SimpleEntry: TimelineEntry {
     let title: String
     let targetDate: Date
     let countDownNum: Int
+    let toDoString: String
 }
 
 struct CountDownDateWidgetEntryView : View {
@@ -78,6 +80,8 @@ struct CountDownDateWidgetEntryView : View {
         switch widgetFamily {
             case .systemSmall :
                     smallCountDownDateWidget(entry: entry)
+            case .systemMedium :
+                mediumCountDownDateWidget(entry: entry)
             case .accessoryCircular :
             ZStack{
                 AccessoryWidgetBackground()
@@ -128,11 +132,88 @@ struct CountDownDateWidget: Widget {
         }
         .configurationDisplayName("大考倒數")
         .description("顯示距離大考剩餘幾天")
-        .supportedFamilies([.systemSmall, .accessoryCircular, .accessoryInline])
+        .supportedFamilies([.systemSmall, .systemMedium,.accessoryCircular, .accessoryInline])
+    }
+}
+
+struct mediumCountDownDateWidget: View {
+    
+    var entry: Provider.Entry
+    
+    @State var toDoList: [String] = []
+    
+    var body: some View {
+        GeometryReader { geo in
+            HStack {
+                smallCountDownDateWidget(entry: entry)
+                VStack(alignment: .leading) {
+                    Text("待辦清單")
+                        .font(.system(size: 16))
+                        .fontWeight(.semibold)
+                        .foregroundStyle(Color(red: 1, green: 0.53, blue: 0.34))
+                        .frame(width: geo.size.width/2, alignment: .leading)
+                    if entry.toDoString.count == 0 {
+                        VStack() {
+                            Spacer()
+                            Text("目前尚無待辦事項")
+                                .font(.system(size: 14))
+                                .fontWeight(.semibold)
+                                .foregroundStyle(Color(red: 0.26, green: 0.26, blue: 0.26))
+                                .frame(width: geo.size.width/2, alignment: .center)
+                            Spacer()
+                        }
+                    } else if entry.toDoString.components(separatedBy: "^").count > 4 {
+                        VStack(alignment: .leading, spacing: 3) {
+                            ForEach(0..<3) { toDoNum in
+                                HStack(alignment: .center) {
+                                    Rectangle()
+                                        .foregroundColor(.clear)
+                                        .frame(width: 3, height: 18)
+                                        .background(Color(red: 1, green: 0.53, blue: 0.34))
+                                        .cornerRadius(2)
+                                    Text(entry.toDoString.components(separatedBy: "^")[toDoNum])
+                                        .font(.system(size: 16))
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(Color(red: 0.26, green: 0.26, blue: 0.26))
+                                }
+                            }
+                            Text("more...")
+                                .font(.system(size: 16))
+                                .fontWeight(.semibold)
+                                .foregroundStyle(Color(red: 1, green: 0.53, blue: 0.34))
+                                .frame(width: geo.size.width/2, alignment: .center)
+                                .padding(.top,4)
+                        }
+                        
+                    } else {
+                        VStack(alignment: .leading, spacing: 3) {
+                            ForEach(0..<entry.toDoString.components(separatedBy: "^").count-1) { toDoNum in
+                                HStack(alignment: .center) {
+                                    Rectangle()
+                                        .foregroundColor(.clear)
+                                        .frame(width: 3, height: 18)
+                                        .background(Color(red: 1, green: 0.53, blue: 0.34))
+                                        .cornerRadius(2)
+                                    Text(entry.toDoString.components(separatedBy: "^")[toDoNum])
+                                        .font(.system(size: 16))
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(Color(red: 0.26, green: 0.26, blue: 0.26))
+                                }
+                            }
+                        }
+                    }
+                    Spacer()
+                }.frame(width: geo.size.width/2, height: geo.size.height)
+//                    .border(Color.black)
+            }
+        }
     }
 }
 
 struct smallCountDownDateWidget: View {
+    
+    @Environment(\.modelContext) private var context
+    
     var entry: Provider.Entry
     
     @State var isFinish: Bool = false
@@ -208,9 +289,9 @@ struct smallCountDownDateWidget: View {
     }
 }
 
-#Preview(as: .systemSmall) {
+#Preview(as: .systemMedium) {
     CountDownDateWidget()
 } timeline: {
-    SimpleEntry(date: .now, title: "統測", targetDate: DateComponents(calendar: .current, year: 2024, month: 11, day: 10).date!, countDownNum: 140)
-    SimpleEntry(date: .now, title: "學測", targetDate: DateComponents(calendar: .current, year: 2024, month: 1, day: 20).date!, countDownNum: 48)
+    SimpleEntry(date: .now, title: "統測", targetDate: DateComponents(calendar: .current, year: 2024, month: 11, day: 10).date!, countDownNum: 140, toDoString: "Sam haha^gotostudy^mayto^jhhh^")
+    SimpleEntry(date: .now, title: "學測", targetDate: DateComponents(calendar: .current, year: 2024, month: 1, day: 20).date!, countDownNum: 48, toDoString: "")
 }

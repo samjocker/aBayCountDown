@@ -6,12 +6,21 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct CountDownDateApp: App {
+    
+//    let contanier: ModelContainer = {
+//        let schema = Schema([DataFormat.self])
+//        let contanier = try! ModelContainer(for: schema, configurations: [])
+//        return contanier
+//    }()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: [DataFormat.self])
     }
 }

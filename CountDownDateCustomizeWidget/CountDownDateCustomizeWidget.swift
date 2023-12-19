@@ -205,7 +205,7 @@ struct CustomizeWidgetView: View {
             } else {
                 isToday = false
             }
-            print(entry.countDownNum)
+//            print(entry.countDownNum)
         }
         
     }
