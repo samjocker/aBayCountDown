@@ -9,6 +9,7 @@ import SwiftUI
 import AVKit
 import AVFoundation
 import WidgetKit
+import EventKit
 
 struct HomePage: View {
 
@@ -215,14 +216,16 @@ struct EditBigTestDatePage: View {
                         }
                     }
                     Section(header: Text("小工具進度條介紹")) {
-                        HStack {
+                        VStack {
                             Image("graphDemo")
-                                .cornerRadius(5)
+                                .resizable()
+                                .scaledToFit()
+                                .cornerRadius(8)
                                 .overlay(
-                                    RoundedRectangle(cornerRadius: 5)
-                                        .stroke(.orange, lineWidth: 1)
-                                        
-                                )
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(.orange, lineWidth: 2)
+                                ).padding(.bottom, 10)
+                            Text("此進度條能讓使用者用視覺化的方式看出距離目標剩餘多久，一行有12格分別由右至左對應月份。為考量排版至多顯示兩年內進度條。")
                         }
                     }
                 }
@@ -283,6 +286,19 @@ struct EditDatePage: View {
                                 .environment(\.locale,Locale.init(identifier: "zh-tw"))
                         }
                         
+                    }
+                    Section(header: Text("小工具進度條介紹")) {
+                        VStack {
+                            Image("graphDemo")
+                                .resizable()
+                                .scaledToFit()
+                                .cornerRadius(8)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(.orange, lineWidth: 2)
+                                ).padding(.bottom, 10)
+                            Text("此進度條能讓使用者用視覺化的方式看出距離目標剩餘多久，一行有12格分別由右至左對應月份。為考量排版至多顯示兩年內進度條。")
+                        }
                     }
                 }
                 .onAppear{
