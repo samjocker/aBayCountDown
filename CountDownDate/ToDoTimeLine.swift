@@ -24,6 +24,7 @@ struct ToDoTimeLine: View {
     @State var haveThing: [Int] = [0, 0]
     @State var todayDate: String = ""
     @State var outOfLength: Bool = false
+    @State var tapState: [Bool] = [false]
     @Query var dataBox: [DataFormat]
     
     var body: some View {
@@ -131,7 +132,8 @@ struct ToDoTimeLine: View {
                                         toDoName = ""
                                         addToDo.toggle()
                                     }
-                                }.alert("內容不得為空或超過12字", isPresented: $outOfLength) {
+                                }
+                                .alert("內容不得為空或超過12字", isPresented: $outOfLength) {
                                     Button("重新編輯"){
                                         
                                     }
@@ -151,7 +153,7 @@ struct ToDoTimeLine: View {
                             Spacer()
                         }.padding(.top,0)
                     }
-            }.background(Color(red: 0.95, green: 0.9, blue: 0.87))
+            }.background(Color("aBayBackground"))
         }
     }
     
@@ -180,6 +182,7 @@ struct SmallWeekCalendar: View {
     @State var select: Int = 3
     @State var today: Int = 0
     @State private var currentWeekOffset = 0
+    @State var tapState: [Bool] = [false]
     
     var body: some View {
         HStack(spacing: 12) {
@@ -192,6 +195,7 @@ struct SmallWeekCalendar: View {
                         select = i
                         selectDay = formatterSelectDate(dateFor(i))
                         refreshSelectDate()
+                        tapState[0].toggle()
                     }, label: {
                         if select != i {
                             ZStack {
@@ -235,8 +239,9 @@ struct SmallWeekCalendar: View {
                                 }.padding(.top, 3)
                             }
                         }
-                    })
-                }.gesture(
+                    }).sensoryFeedback(.decrease , trigger: tapState[0])
+                }
+                .gesture(
                     DragGesture()
                         .onEnded { value in
                             if value.translation.width < -30 {
@@ -329,6 +334,7 @@ struct ToDoCheck: View {
     @Binding var haveThing: [Int]
     
     @State var delectThing: Bool = false
+    @State var tapState: Bool = false
     @Query var dataBox: [DataFormat]
     
     var body: some View {
@@ -357,6 +363,7 @@ struct ToDoCheck: View {
                         Button(action: {
                             updateState(item: dataItem, toDoState: false)
                             haveThing[0] -= 1
+                            tapState.toggle()
                         }, label: {
                             ZStack(alignment: .center) {
                                 Rectangle()
@@ -371,19 +378,38 @@ struct ToDoCheck: View {
                                     .fontWeight(.semibold)
                                     .foregroundStyle(Color.white)
                             }
-                        }).padding(.trailing)
+                        }).sensoryFeedback(.impact, trigger: tapState)
+                        .padding(.trailing)
                     } else {
-                        Image(systemName: "checkmark.circle.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 26)
-                            .padding(.trailing)
+//                        Image(systemName: "checkmark.circle.fill")
+//                            .resizable()
+//                            .scaledToFit()
+//                            .frame(width: 26)
+//                            .padding(.trailing)
+                        Button(action: {
+                            updateState(item: dataItem, toDoState: true)
+                            haveThing[1] -= 1
+                            
+                        }, label: {
+                            ZStack {
+                                Circle()
+                                    .scaledToFit()
+                                    .frame(width: 26)
+                                    .foregroundStyle(Color.white)
+                                    .shadow(color: Color(red: 0.82, green: 0.41, blue: 0.25), radius: 0, x: 0, y: 2)
+                                Image(systemName: "checkmark.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 26)
+                                    
+                            }.padding(.top, -2)
+                        })
+                        .padding(.trailing)
                     }
                     
                 }
             }.padding(.horizontal)
-        })
-        .confirmationDialog("要確定誒",isPresented: $delectThing) {
+        }).confirmationDialog("要確定誒",isPresented: $delectThing) {
             Button("刪除待辦", role: .destructive) {
                 if dataItem.thingState {
                     haveThing[0] -= 1
@@ -400,6 +426,7 @@ struct ToDoCheck: View {
         try! context.save()
     }
 }
+
 
 //#Preview {
 //    ToDoCheck(thingName: .constant("寫數學講義"))

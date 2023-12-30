@@ -51,7 +51,7 @@ struct HomePage: View {
                                 Text("會考/學測/統測")
                                     .font(.system(size: 26))
                                     .fontWeight(.semibold)
-                                    .foregroundStyle(colorScheme == .light ? Color(red: 0.2, green: 0.3, blue: 0.5) : Color(red: 0.95, green: 0.9, blue: 0.87))
+                                    .foregroundStyle(colorScheme == .light ? Color("samDeepBlue") : Color("aBayBackground"))
                                     .scrollTransition { content,phase in
                                         content.opacity(phase.isIdentity ? 1.0:0.0)
                                             .scaleEffect(phase.isIdentity ? 1.0:0.6)
@@ -59,7 +59,7 @@ struct HomePage: View {
                                 
                                 WidgetPreviewRectangle(titleText: .constant(bigTestNameDict[bigTestType]!), targetDate: $bigTestDate)
                                     .background{
-                                        Color(red: 0.95, green: 0.9, blue: 0.87)
+                                        Color("aBayBackground")
                                     }
                                     .cornerRadius(25)
                                     .frame(width: 160, height: 160)
@@ -79,9 +79,9 @@ struct HomePage: View {
                                         Rectangle()
                                             .foregroundColor(.clear)
                                             .frame(width: 140, height: 50)
-                                            .background(Color(red: 0.2, green: 0.3, blue: 0.5))
+                                            .background(Color("samDeepBlue"))
                                             .cornerRadius(25)
-                                            .shadow(color:colorScheme == .light ?  Color(red: 0.2, green: 0.3, blue: 0.5).opacity(0.7) : Color(red: 0.4, green: 0.5, blue: 0.7).opacity(0.7), radius: 0, x: 0, y: 4)
+                                            .shadow(color:colorScheme == .light ?  Color("samDeepBlue").opacity(0.7) : Color(red: 0.4, green: 0.5, blue: 0.7).opacity(0.7), radius: 0, x: 0, y: 4)
                                         Text("編輯")
                                             .font(.system(size: 26))
                                             .fontWeight(.bold)
@@ -100,7 +100,7 @@ struct HomePage: View {
                                     Text("自訂"+String(i+1))
                                         .font(.system(size: 24))
                                         .fontWeight(.semibold)
-                                        .foregroundStyle(colorScheme == .light ? Color(red: 0.2, green: 0.3, blue: 0.5) : Color(red: 0.95, green: 0.9, blue: 0.87))
+                                        .foregroundStyle(colorScheme == .light ? Color("samDeepBlue") : Color("aBayBackground"))
                                         .scrollTransition { content,phase in
                                             content.opacity(phase.isIdentity ? 1.0:0.0)
                                                 .scaleEffect(phase.isIdentity ? 1.0:0.6)
@@ -109,7 +109,7 @@ struct HomePage: View {
                                     
                                     CustomizeWidgetPreviewRectangle(title: $customeWidgetNameList[i], targetDate: $customeWidgetDateList[i])
                                         .background{
-                                            Color(red: 0.95, green: 0.9, blue: 0.87)
+                                            Color("aBayBackground")
                                         }
                                         .cornerRadius(25)
                                         .frame(width: 160, height: 160)
@@ -129,9 +129,9 @@ struct HomePage: View {
                                             Rectangle()
                                                 .foregroundColor(.clear)
                                                 .frame(width: 140, height: 50)
-                                                .background(Color(red: 0.2, green: 0.3, blue: 0.5))
+                                                .background(Color("samDeepBlue"))
                                                 .cornerRadius(25)
-                                                .shadow(color:colorScheme == .light ?  Color(red: 0.2, green: 0.3, blue: 0.5).opacity(0.7) : Color(red: 0.4, green: 0.5, blue: 0.7).opacity(0.7), radius: 0, x: 0, y: 4)
+                                                .shadow(color:colorScheme == .light ?  Color("samDeepBlue").opacity(0.7) : Color(red: 0.4, green: 0.5, blue: 0.7).opacity(0.7), radius: 0, x: 0, y: 4)
                                             Text("編輯")
                                                 .font(.system(size: 26))
                                                 .fontWeight(.bold)
@@ -144,25 +144,6 @@ struct HomePage: View {
                                         EditDatePage(widgetNum: .constant(i+1), customeWidgetNameList: $customeWidgetNameList, customeWidgetDateList: $customeWidgetDateList)
                                             .presentationDetents([.medium, .large])
                                     }
-//                                    NavigationLink() {
-//                                        EditDatePage(widgetNum: .constant(i+1), customeWidgetNameList: $customeWidgetNameList, customeWidgetDateList: $customeWidgetDateList)
-//                                    } label: {
-//                                        ZStack {
-//                                            Rectangle()
-//                                                .foregroundColor(.clear)
-//                                                .frame(width: 140, height: 50)
-//                                                .background(Color(red: 0.2, green: 0.3, blue: 0.5))
-//                                                .cornerRadius(25)
-//                                                .shadow(color:colorScheme == .light ?  Color(red: 0.2, green: 0.3, blue: 0.5).opacity(0.7) : Color(red: 0.4, green: 0.5, blue: 0.7).opacity(0.7), radius: 0, x: 0, y: 4)
-//                                            Text("編輯")
-//                                                .font(.system(size: 26))
-//                                                .fontWeight(.bold)
-//                                                .foregroundStyle(Color.white)
-//                                        }.scrollTransition { content,phase in
-//                                            content.opacity(phase.isIdentity ? 1.0:0.0)
-//                                                .scaleEffect(phase.isIdentity ? 1.0:0.6)
-//                                        }
-//                                    }.padding(.bottom,5)
                                 }
                             }
                         }
@@ -178,7 +159,7 @@ struct HomePage: View {
                 .navigationTitle("初四倒數")
             }
             .background {
-                Color(Color(red: 0.95, green: 0.9, blue: 0.87))
+                Color(Color("aBayBackground"))
                     .ignoresSafeArea()
             }.toolbarBackground(
                 Color(red: 0.97, green: 0.92, blue: 0.88),
@@ -231,6 +212,17 @@ struct EditBigTestDatePage: View {
                         }.onAppear{
                             bigTestType = whichBigTest
                             aleadySaveTestType = whichBigTest
+                        }
+                    }
+                    Section(header: Text("小工具進度條介紹")) {
+                        HStack {
+                            Image("graphDemo")
+                                .cornerRadius(5)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(.orange, lineWidth: 1)
+                                        
+                                )
                         }
                     }
                 }
@@ -379,18 +371,18 @@ struct WidgetPreviewRectangle: View {
                     Image(systemName: "calendar.badge.clock")
                         .resizable()
                         .scaledToFit()
-                        .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.5))
+                        .foregroundColor(Color("samDeepBlue"))
                         .frame(height: 29)
                     Text(titleText)
                         .font(.system(size: 24))
                         .fontWeight(.bold)
-                        .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.5))
+                        .foregroundColor(Color("samDeepBlue"))
                         .frame(width: 50, height: 30,alignment: .topLeading)
                         .padding(.leading,-5)
                     Text("倒數")
                         .font(.system(size: 18))
                         .fontWeight(.bold)
-                        .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.5).opacity(0.78))
+                        .foregroundColor(Color("samDeepBlue").opacity(0.78))
                         .frame(width: 38, height: 23, alignment: .topLeading)
                         .padding(.leading,-8)
                 }.padding(.top,0)
@@ -401,7 +393,7 @@ struct WidgetPreviewRectangle: View {
                 HStack(alignment: .firstTextBaseline){
                     Text(isToday ? "當":String(downDays))
                         .font(.system(size: 50, design: .rounded))
-                        .foregroundColor(Color(red: 1, green: 0.31, blue: 0.11))
+                        .foregroundColor(Color("samOrange"))
                         .frame(width: downDays>99||downDays < -99 ? 110:downDays>9||downDays<0 ? 80:50)
 //                        .shadow(radius: 1,x:1,y:1)
                         .fontWeight(.heavy)
@@ -409,7 +401,7 @@ struct WidgetPreviewRectangle: View {
                     Text("天")
                         .font(.system(size: 18))
                         .fontWeight(.bold)
-                        .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.5))
+                        .foregroundColor(Color("samDeepBlue"))
                         .frame(width: 18, height: 20, alignment: .topLeading)
                         .padding(.leading,-12)
 
@@ -465,19 +457,19 @@ struct CustomizeWidgetPreviewRectangle: View {
                     Image(systemName:isFinish ? "calendar.badge.checkmark":"calendar.badge.clock")
                         .resizable()
                         .scaledToFit()
-                        .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.5))
+                        .foregroundColor(Color("samDeepBlue"))
                         .frame(height: 29)
                     Text(title)
                         .font(.system(size:titleCount<4 ? 24 : 20))
                         .fontWeight(.bold)
-                        .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.5))
+                        .foregroundColor(Color("samDeepBlue"))
                         .frame(height: 30,alignment: .topLeading)
                         .padding(.leading,-5)
                     if titleCount<3 {
                         Text("倒數")
                             .font(.system(size: 18))
                             .fontWeight(.bold)
-                            .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.5).opacity(0.78))
+                            .foregroundColor(Color("samDeepBlue").opacity(0.78))
                             .frame(width: 38, height: 23, alignment: .topLeading)
                             .padding(.leading,-8)
                     }
@@ -489,7 +481,7 @@ struct CustomizeWidgetPreviewRectangle: View {
                 HStack(alignment: .firstTextBaseline){
                     Text(isToday ? "當":String(countDownNum))
                         .font(.system(size: 50, design: .rounded))
-                        .foregroundColor(Color(red: 1, green: 0.31, blue: 0.11))
+                        .foregroundColor(Color("samOrange"))
                         .frame(width: countDownNum>99||countDownNum < -99 ? 110:countDownNum>9||countDownNum<0 ? 80:50)
 //                        .shadow(radius: 1,x:1,y:1)
                         .fontWeight(.heavy)
@@ -497,7 +489,7 @@ struct CustomizeWidgetPreviewRectangle: View {
                     Text("天")
                         .font(.system(size: 18))
                         .fontWeight(.bold)
-                        .foregroundColor(Color(red: 0.2, green: 0.3, blue: 0.5))
+                        .foregroundColor(Color("samDeepBlue"))
                         .frame(width: 18, height: 20, alignment: .topLeading)
                         .padding(.leading,-8)
 
@@ -536,6 +528,10 @@ struct CustomizeWidgetPreviewRectangle: View {
 
 #Preview {
     HomePage()
+}
+
+#Preview {
+    EditBigTestDatePage(aleadySaveTestType: .constant("TVE"), aleadySaveTestDate: .constant(.now))
 }
 
 //#Preview {

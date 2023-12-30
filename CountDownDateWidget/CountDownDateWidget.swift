@@ -14,16 +14,17 @@ struct Provider: TimelineProvider {
     @AppStorage("todayToDoList", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var todayToDoList: String = ""
     let bigTestDateDict: [String:String] = ["CAP":"2024/05/18", "TVE":"2024/04/27", "GSAT":"2024/01/20"]
     let bigTestNameDict: [String:String] = ["CAP":"會考", "TVE":"統測", "GSAT":"學測"]
+    @State var inLineImage: Image = Image("checkmark.circle.fill")
 //    @State var targetDate: Date = .now
     
     
     func placeholder(in context: Context) -> SimpleEntry {
         
-        SimpleEntry(date: Date(), title: bigTestNameDict[whichBigTest]!, targetDate: getTargetDate(bigTestName: whichBigTest), countDownNum: getCountDownNum(bigTestName: whichBigTest), toDoString: todayToDoList)
+        SimpleEntry(date: Date(), title: bigTestNameDict[whichBigTest]!, targetDate: getTargetDate(bigTestName: whichBigTest), countDownNum: getCountDownNum(bigTestName: whichBigTest), toDoString: todayToDoList, inLineImage: inLineImage)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), title: bigTestNameDict[whichBigTest]!, targetDate: getTargetDate(bigTestName: whichBigTest), countDownNum: getCountDownNum(bigTestName: whichBigTest), toDoString: todayToDoList)
+        let entry = SimpleEntry(date: Date(), title: bigTestNameDict[whichBigTest]!, targetDate: getTargetDate(bigTestName: whichBigTest), countDownNum: getCountDownNum(bigTestName: whichBigTest), toDoString: todayToDoList, inLineImage: inLineImage)
         completion(entry)
     }
 
@@ -37,7 +38,7 @@ struct Provider: TimelineProvider {
 //        let entry = SimpleEntry(date: startOfDay, title: bigTestNameDict[whichBigTest]!, targetDate: getTargetDate(bigTestName: whichBigTest), countDownNum: getCountDownNum(bigTestName: whichBigTest))
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, title: bigTestNameDict[whichBigTest]!, targetDate: getTargetDate(bigTestName: whichBigTest), countDownNum: getCountDownNum(bigTestName: whichBigTest), toDoString: todayToDoList)
+            let entry = SimpleEntry(date: entryDate, title: bigTestNameDict[whichBigTest]!, targetDate: getTargetDate(bigTestName: whichBigTest), countDownNum: getCountDownNum(bigTestName: whichBigTest), toDoString: todayToDoList, inLineImage: inLineImage)
             entries.append(entry)
         }
 
@@ -70,11 +71,14 @@ struct SimpleEntry: TimelineEntry {
     let targetDate: Date
     let countDownNum: Int
     let toDoString: String
+    let inLineImage: Image
 }
 
 struct CountDownDateWidgetEntryView : View {
     @Environment(\.widgetFamily) var widgetFamily
     var entry: Provider.Entry
+    
+    let code: [Int] = [1,3,1,2,2,1,1,3,1,3,1,1,3,1,2,1,2,3,1,1,2,2,1,3,1,1,1,2,1,1,3,2,1,1,3,2,2,1,1,1,2,1,2,3,1,2,2,1,1,3,1,1,2,3,1,1,2,1,3,1,2,2,1]
 
     var body: some View {
         switch widgetFamily {
@@ -102,6 +106,15 @@ struct CountDownDateWidgetEntryView : View {
             }
         case .accessoryInline :
             HStack{
+////                entry.inLineImage
+//                Image("checkmark")
+////                    .resizable()
+////                    .scaledToFit()
+//                Text(buldCode())
+//
+////                Rectangle()
+////                   .fill(Color.white)
+////                   .frame(width: 5, height: 5)
                 Image(systemName: "calendar.badge.clock")
                 Text(entry.title+" 倒數"+String(entry.countDownNum)+"天")
             }
@@ -111,6 +124,16 @@ struct CountDownDateWidgetEntryView : View {
         }
         
         
+    }
+    
+    func buldCode() -> String{
+        var result = ""
+        let convertCode = ["","❘","❙"," "]
+        for i in 0..<code.count {
+            result.append(convertCode[code[i]])
+        }
+        print(result)
+        return result
     }
     
     
@@ -246,7 +269,7 @@ struct smallCountDownDateWidget: View {
 //                    .frame(height: 10)
                 
                 HStack(alignment: .firstTextBaseline){
-                    Text(isToday ? "當":String(entry.countDownNum))
+                    Text(isToday ? "今":String(entry.countDownNum))
                         .font(.system(size: 50, design: .rounded))
                         .foregroundColor(Color(red: 1, green: 0.31, blue: 0.11))
                         .frame(width: entry.countDownNum>99||entry.countDownNum < -99 ? 100:entry.countDownNum>9||entry.countDownNum<0 ? 80:50)
@@ -289,9 +312,9 @@ struct smallCountDownDateWidget: View {
     }
 }
 
-#Preview(as: .systemMedium) {
+#Preview(as: .accessoryInline) {
     CountDownDateWidget()
 } timeline: {
-    SimpleEntry(date: .now, title: "統測", targetDate: DateComponents(calendar: .current, year: 2024, month: 11, day: 10).date!, countDownNum: 140, toDoString: "Sam haha^gotostudy^mayto^jhhh^")
-    SimpleEntry(date: .now, title: "學測", targetDate: DateComponents(calendar: .current, year: 2024, month: 1, day: 20).date!, countDownNum: 48, toDoString: "")
+    SimpleEntry(date: .now, title: "統測", targetDate: DateComponents(calendar: .current, year: 2024, month: 11, day: 10).date!, countDownNum: 140, toDoString: "Sam haha^gotostudy^mayto^jhhh^", inLineImage: Image("checkmark.circle.fill"))
+    SimpleEntry(date: .now, title: "學測", targetDate: DateComponents(calendar: .current, year: 2024, month: 1, day: 20).date!, countDownNum: 48, toDoString: "", inLineImage: Image("checkmark.circle.fill"))
 }

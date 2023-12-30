@@ -166,7 +166,7 @@ struct CustomizeWidgetView: View {
 //                    .frame(height: 10)
                 
                 HStack(alignment: .firstTextBaseline){
-                    Text(isToday ? "當":String(entry.countDownNum[customizeNum-1]))
+                    Text(isToday ? "今":String(entry.countDownNum[customizeNum-1]))
                         .font(.system(size: 50, design: .rounded))
                         .foregroundColor(Color(red: 1, green: 0.31, blue: 0.11))
                         .frame(width:entry.countDownNum[customizeNum-1]>99||entry.countDownNum[customizeNum-1] < -99 ? 110:entry.countDownNum[customizeNum-1]>9||entry.countDownNum[customizeNum-1]<0 ? 80:50)
