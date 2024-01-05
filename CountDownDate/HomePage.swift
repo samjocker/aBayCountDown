@@ -22,6 +22,7 @@ struct HomePage: View {
     @AppStorage("customeWidgetName1", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeWidgetNameSave1: String = "自訂1"
     @AppStorage("customeWidgetName2", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeWidgetNameSave2: String = "自訂2"
     @AppStorage("customeWidgetName3", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var customeWidgetNameSave3: String = "自訂3"
+    @AppStorage("tutorial") var tutorialState: Bool = true
     
     @State var selectId: Int = 0
     @State var bigTestType: String = "TVE"
@@ -39,134 +40,173 @@ struct HomePage: View {
     
     var body: some View {
         NavigationStack(){
-            ScrollView(.vertical){
-                VStack(alignment:.leading) {
-                    Text("小工具編輯")
-                        .font(.system(size: 28))
-                        .fontWeight(.bold)
-                        .padding(.leading)
-                        .padding(.top)
-                    ScrollView(.horizontal,showsIndicators: false){
-                        HStack(alignment:.center){
-                            VStack{
-                                Text("會考/學測/統測")
-                                    .font(.system(size: 26))
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(colorScheme == .light ? Color("samDeepBlue") : Color("aBayBackground"))
-                                    .scrollTransition { content,phase in
-                                        content.opacity(phase.isIdentity ? 1.0:0.0)
-                                            .scaleEffect(phase.isIdentity ? 1.0:0.6)
+            VStack {
+                GeometryReader { geo in
+                    ScrollView(.vertical){
+                        VStack(alignment:.leading) {
+                            if tutorialState {
+                                ZStack (alignment: .center) {
+                                    TabView {
+                                        Image("tutorial1")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .cornerRadius(20)
+                                            .frame(height: 250)
+                                        Image("tutorial2")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 250)
+                                            .cornerRadius(20)
                                     }
-                                
-                                WidgetPreviewRectangle(titleText: .constant(bigTestNameDict[bigTestType]!), targetDate: $bigTestDate)
-                                    .background{
-                                        Color("aBayBackground")
-                                    }
-                                    .cornerRadius(25)
-                                    .frame(width: 160, height: 160)
-                                    .shadow(color:Color.primary.opacity(0.4),radius: 8,x:4,y:4)
-                                    .containerRelativeFrame(.horizontal, count:1, spacing:20)
-                                    .scrollTransition { content,phase in
-                                        content.opacity(phase.isIdentity ? 1.0:0.5)
-                                            .scaleEffect(phase.isIdentity ? 1.0:0.6)
-                                    }
-                                Spacer()
-                                    .frame(height: 20)
-                                
-                                Button(action: {
-                                    showSheet.toggle()
-                                }, label: {
-                                    ZStack {
-                                        Rectangle()
-                                            .foregroundColor(.clear)
-                                            .frame(width: 140, height: 50)
-                                            .background(Color("samDeepBlue"))
-                                            .cornerRadius(25)
-                                            .shadow(color:colorScheme == .light ?  Color("samDeepBlue").opacity(0.7) : Color(red: 0.4, green: 0.5, blue: 0.7).opacity(0.7), radius: 0, x: 0, y: 4)
-                                        Text("編輯")
-                                            .font(.system(size: 26))
-                                            .fontWeight(.bold)
-                                            .foregroundStyle(Color.white)
-                                    }.scrollTransition { content,phase in
-                                        content.opacity(phase.isIdentity ? 1.0:0.0)
-                                            .scaleEffect(phase.isIdentity ? 1.0:0.6)
-                                    }
-                                }).sheet(isPresented: $showSheet) {
-                                    EditBigTestDatePage(aleadySaveTestType: $bigTestType,aleadySaveTestDate: $bigTestDate)
-                                        .presentationDetents([.medium, .large])
-                                }
-                            }
-                            ForEach(0..<3) { i in
-                                VStack{
-                                    Text("自訂"+String(i+1))
-                                        .font(.system(size: 24))
-                                        .fontWeight(.semibold)
-                                        .foregroundStyle(colorScheme == .light ? Color("samDeepBlue") : Color("aBayBackground"))
-                                        .scrollTransition { content,phase in
-                                            content.opacity(phase.isIdentity ? 1.0:0.0)
-                                                .scaleEffect(phase.isIdentity ? 1.0:0.6)
-                                        }
-                                        .frame(width:180)
-                                    
-                                    CustomizeWidgetPreviewRectangle(title: $customeWidgetNameList[i], targetDate: $customeWidgetDateList[i])
-                                        .background{
-                                            Color("aBayBackground")
-                                        }
-                                        .cornerRadius(25)
-                                        .frame(width: 160, height: 160)
-                                        .shadow(color:Color.primary.opacity(0.4),radius: 8,x:4,y:4)
-                                        .containerRelativeFrame(.horizontal, count:1, spacing:20)
-                                        .scrollTransition { content,phase in
-                                            content.opacity(phase.isIdentity ? 1.0:0.5)
-                                                .scaleEffect(phase.isIdentity ? 1.0:0.6)
-                                        }
-                                    
-                                    Spacer()
-                                        .frame(height: 20)
+                                    .tabViewStyle(PageTabViewStyle())
+                                    //                            .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
                                     Button(action: {
-                                        showCustomSheet[i].toggle()
+                                        tutorialState.toggle()
                                     }, label: {
-                                        ZStack {
-                                            Rectangle()
-                                                .foregroundColor(.clear)
-                                                .frame(width: 140, height: 50)
-                                                .background(Color("samDeepBlue"))
-                                                .cornerRadius(25)
-                                                .shadow(color:colorScheme == .light ?  Color("samDeepBlue").opacity(0.7) : Color(red: 0.4, green: 0.5, blue: 0.7).opacity(0.7), radius: 0, x: 0, y: 4)
-                                            Text("編輯")
-                                                .font(.system(size: 26))
-                                                .fontWeight(.bold)
-                                                .foregroundStyle(Color.white)
-                                        }.scrollTransition { content,phase in
-                                            content.opacity(phase.isIdentity ? 1.0:0.0)
-                                                .scaleEffect(phase.isIdentity ? 1.0:0.6)
+                                        Image(systemName: "xmark.circle.fill")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 22)
+                                            .foregroundStyle(Color.gray.opacity(0.4))
+                                    }).padding(.leading, 325)
+                                        .padding(.bottom, 210)
+                                }.frame(height:250)
+                            }
+                            Text("小工具編輯")
+                                .font(.system(size: 28))
+                                .fontWeight(.bold)
+                                .padding(.leading)
+                                .padding(.top)
+                            ScrollView(.horizontal,showsIndicators: false){
+                                HStack(alignment:.center){
+                                    VStack{
+                                        Text("會考/學測/統測")
+                                            .font(.system(size: 26))
+                                            .fontWeight(.semibold)
+                                            .foregroundStyle(colorScheme == .light ? Color("samDeepBlue") : Color("aBayBackground"))
+                                            .scrollTransition { content,phase in
+                                                content.opacity(phase.isIdentity ? 1.0:0.0)
+                                                    .scaleEffect(phase.isIdentity ? 1.0:0.6)
+                                            }
+                                        
+                                        WidgetPreviewRectangle(titleText: .constant(bigTestNameDict[bigTestType]!), targetDate: $bigTestDate)
+                                            .background{
+                                                Color("aBayBackground")
+                                            }
+                                            .cornerRadius(25)
+                                            .frame(width: 160, height: 160)
+                                            .shadow(color:Color.primary.opacity(0.4),radius: 8,x:4,y:4)
+                                            .containerRelativeFrame(.horizontal, count:1, spacing:20)
+                                            .scrollTransition { content,phase in
+                                                content.opacity(phase.isIdentity ? 1.0:0.5)
+                                                    .scaleEffect(phase.isIdentity ? 1.0:0.6)
+                                            }
+                                        Spacer()
+                                            .frame(height: 20)
+                                        
+                                        Button(action: {
+                                            showSheet.toggle()
+                                        }, label: {
+                                            ZStack {
+                                                Rectangle()
+                                                    .foregroundColor(.clear)
+                                                    .frame(width: 140, height: 50)
+                                                    .background(Color("samDeepBlue"))
+                                                    .cornerRadius(25)
+                                                    .shadow(color:colorScheme == .light ?  Color("samDeepBlue").opacity(0.7) : Color(red: 0.4, green: 0.5, blue: 0.7).opacity(0.7), radius: 0, x: 0, y: 4)
+                                                Text("編輯")
+                                                    .font(.system(size: 26))
+                                                    .fontWeight(.bold)
+                                                    .foregroundStyle(Color.white)
+                                            }.scrollTransition { content,phase in
+                                                content.opacity(phase.isIdentity ? 1.0:0.0)
+                                                    .scaleEffect(phase.isIdentity ? 1.0:0.6)
+                                            }
+                                        }).sheet(isPresented: $showSheet) {
+                                            EditBigTestDatePage(aleadySaveTestType: $bigTestType,aleadySaveTestDate: $bigTestDate)
+                                                .presentationDetents([.medium, .large])
                                         }
-                                    }).sheet(isPresented: $showCustomSheet[i]) {
-                                        EditDatePage(widgetNum: .constant(i+1), customeWidgetNameList: $customeWidgetNameList, customeWidgetDateList: $customeWidgetDateList)
-                                            .presentationDetents([.medium, .large])
+                                    }
+                                    ForEach(0..<3) { i in
+                                        VStack{
+                                            Text("自訂"+String(i+1))
+                                                .font(.system(size: 24))
+                                                .fontWeight(.semibold)
+                                                .foregroundStyle(colorScheme == .light ? Color("samDeepBlue") : Color("aBayBackground"))
+                                                .scrollTransition { content,phase in
+                                                    content.opacity(phase.isIdentity ? 1.0:0.0)
+                                                        .scaleEffect(phase.isIdentity ? 1.0:0.6)
+                                                }
+                                                .frame(width:180)
+                                            
+                                            CustomizeWidgetPreviewRectangle(title: $customeWidgetNameList[i], targetDate: $customeWidgetDateList[i])
+                                                .background{
+                                                    Color("aBayBackground")
+                                                }
+                                                .cornerRadius(25)
+                                                .frame(width: 160, height: 160)
+                                                .shadow(color:Color.primary.opacity(0.4),radius: 8,x:4,y:4)
+                                                .containerRelativeFrame(.horizontal, count:1, spacing:20)
+                                                .scrollTransition { content,phase in
+                                                    content.opacity(phase.isIdentity ? 1.0:0.5)
+                                                        .scaleEffect(phase.isIdentity ? 1.0:0.6)
+                                                }
+                                            
+                                            Spacer()
+                                                .frame(height: 20)
+                                            Button(action: {
+                                                showCustomSheet[i].toggle()
+                                            }, label: {
+                                                ZStack {
+                                                    Rectangle()
+                                                        .foregroundColor(.clear)
+                                                        .frame(width: 140, height: 50)
+                                                        .background(Color("samDeepBlue"))
+                                                        .cornerRadius(25)
+                                                        .shadow(color:colorScheme == .light ?  Color("samDeepBlue").opacity(0.7) : Color(red: 0.4, green: 0.5, blue: 0.7).opacity(0.7), radius: 0, x: 0, y: 4)
+                                                    Text("編輯")
+                                                        .font(.system(size: 26))
+                                                        .fontWeight(.bold)
+                                                        .foregroundStyle(Color.white)
+                                                }.scrollTransition { content,phase in
+                                                    content.opacity(phase.isIdentity ? 1.0:0.0)
+                                                        .scaleEffect(phase.isIdentity ? 1.0:0.6)
+                                                }
+                                            }).sheet(isPresented: $showCustomSheet[i]) {
+                                                EditDatePage(widgetNum: .constant(i+1), customeWidgetNameList: $customeWidgetNameList, customeWidgetDateList: $customeWidgetDateList)
+                                                    .presentationDetents([.medium, .large])
+                                            }
+                                        }
                                     }
                                 }
+                                .scrollTargetLayout()
+                                .padding(.bottom,14)
+                                
                             }
+                            .contentMargins(100)
+                            .scrollTargetBehavior(.viewAligned)
+                            .frame(height:350)
+                            //                    .background(Color.white)
                         }
-                        .scrollTargetLayout()
-                        .padding(.bottom,14)
-                        
+                        .navigationTitle("初四倒數")
                     }
-                    .contentMargins(100)
-                    .scrollTargetBehavior(.viewAligned)
-                    .frame(height:350)
-//                    .background(Color.white)
+                    .frame(height: geo.size.height-1)
+                    .background {
+                        Color(Color("aBayBackground"))
+                            .ignoresSafeArea()
+                    }.toolbarBackground(
+                        Color(red: 0.97, green: 0.92, blue: 0.88),
+                        for: .navigationBar)
+                    .toolbarBackground(
+                        Color(red: 0.97, green: 0.92, blue: 0.88),
+                        for: .bottomBar)
                 }
-                .navigationTitle("初四倒數")
+            }.background {
+                Color.gray.opacity(0.4).ignoresSafeArea()
             }
-            .background {
-                Color(Color("aBayBackground"))
-                    .ignoresSafeArea()
-            }.toolbarBackground(
-                Color(red: 0.97, green: 0.92, blue: 0.88),
-                for: .navigationBar)
 
-        }.onAppear{
+        }
+        .onAppear{
             bigTestType = whichBigTest
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy/MM/dd"

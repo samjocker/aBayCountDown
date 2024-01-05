@@ -9,6 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
     
+    init() {
+        UITabBar.appearance().backgroundColor = UIColor(Color(red: 0.95, green: 0.90, blue: 0.87))
+    }
+    
     var body: some View {
         TabView {
             ToDoTimeLine()
@@ -16,9 +20,9 @@ struct ContentView: View {
                     Label("待辦事項", systemImage: "checklist")
                 }
             HomePage()
-                .tabItem {
-                    Label("倒數小工具", systemImage: "calendar.badge.clock")
-                }
+            .tabItem {
+                Label("倒數小工具", systemImage: "calendar.badge.clock")
+            }
         }
     }
 }

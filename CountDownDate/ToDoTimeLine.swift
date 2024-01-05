@@ -17,6 +17,7 @@ struct ToDoTimeLine: View {
     
 //    @State var todayToDoString: String = ""
     @State var addToDo: Bool = false
+    @State var whichChoice: Bool = true
     @State var toDoName: String = ""
     @State var selectDay: String = "2023/12/01"
     @State var selectDayMonth: String = "12"
@@ -39,24 +40,68 @@ struct ToDoTimeLine: View {
                     
                     ZStack {
                         if haveThing == [0, 0] {
-                            Text("今日尚無待辦，新增一些吧!")
-                                .font(.system(size: 18))
-                                .fontWeight(.semibold)
-                                .foregroundStyle(Color(red: 0.4, green: 0.4, blue: 0.4))
-                                .frame(width: geo.size.width ,alignment: .center)
+                            VStack {
+                                Spacer()
+                                Text("今日尚無待辦，新增一些吧!")
+                                    .font(.system(size: 18))
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                    .frame(width: geo.size.width ,alignment: .center)
+                                Spacer()
+                                Spacer()
+                            }
                         }
                         VStack(alignment: .leading) {
-                            if haveThing[0] > 0 || haveThing[1] > 0 {
-                                Text("待完成")
-                                    .font(.system(size: 22))
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(Color.black)
-                                    .padding(.leading)
+                            if haveThing != [0, 0] {
+                                HStack {
+                                    VStack {
+                                        Button(action: {
+                                            whichChoice = true
+                                        }, label: {
+                                            Text("待完成")
+                                                .font(.system(size: 24))
+                                                .fontWeight(.bold)
+                                                .foregroundStyle(Color.black)
+                                        }).padding(.bottom,-2)
+                                        
+                                        Rectangle()
+                                            .frame(width:72, height: 4)
+                                            .cornerRadius(2)
+                                            .foregroundStyle(whichChoice ? Color.accentColor : Color.clear)
+                                            .padding(.top,-2)
+                                    }
+                                    Spacer()
+                                        .frame(width: 18)
+                                    VStack {
+                                        Button(action: {
+                                            whichChoice = false
+                                        }, label: {
+                                            Text("已完成")
+                                                .font(.system(size: 24))
+                                                .fontWeight(.bold)
+                                                .foregroundStyle(Color.black)
+                                        }).padding(.bottom,-2)
+                                        
+                                        Rectangle()
+                                            .frame(width:72, height: 4)
+                                            .cornerRadius(2)
+                                            .foregroundStyle(!whichChoice ? Color.accentColor : Color.clear)
+                                            .padding(.top,-2)
+                                    }
+                                }.frame(width: geo.size.width)
                             }
+                            
+//                            if haveThing[0] > 0 || haveThing[1] > 0 {
+//                                Text("待完成")
+//                                    .font(.system(size: 22))
+//                                    .fontWeight(.bold)
+//                                    .foregroundStyle(Color.black)
+//                                    .padding(.leading)
+//                            }
                             ZStack {
                                 ScrollView {
                                     VStack(spacing: 4) {
-                                        ForEach(dataBox.filter{ $0.thingDate == selectDay && $0.thingState == true}) { dataItem in
+                                        ForEach(dataBox.filter{ $0.thingDate == selectDay && $0.thingState == true}, id: \.self) { dataItem in
                                             ToDoCheck(dataItem: .constant(dataItem), haveThing: $haveThing)
                                                 .onAppear {
                                                     haveThing[0] += 1
@@ -69,31 +114,40 @@ struct ToDoTimeLine: View {
                                                 }
                                         }
                                     }
-                                }.frame(width:geo.size.width, height: haveThing[0] > 0 ? 200:100)
-                                if haveThing[0] == 0 && haveThing[1] > 0 {
-                                    Text("都完成了🥳")
-                                        .font(.system(size: 18))
-                                        .fontWeight(.semibold)
-                                        .foregroundStyle(Color(red: 1, green: 0.31, blue: 0.11))
-                                }
-                            }
-                            if haveThing[1] > 0 {
-                                Text("已完成")
-                                    .font(.system(size: 22))
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(Color.black)
-                                    .padding(.leading)
-                            }
-                            ScrollView {
-                                VStack(spacing: 4) {
-                                    ForEach(dataBox.filter{ $0.thingDate == selectDay && $0.thingState == false}) { dataItem in
-                                        ToDoCheck(dataItem: .constant(dataItem), haveThing: $haveThing)
-                                            .onAppear {
-                                                haveThing[1] += 1
-                                            }
+                                }.opacity(whichChoice ? 1.0 : 0.0)
+                                .frame(width:geo.size.width)
+                                if haveThing[0] == 0 && haveThing[1] > 0 && whichChoice{
+                                    VStack {
+                                        Spacer()
+                                        Text("都完成了🥳")
+                                            .font(.system(size: 18))
+                                            .fontWeight(.semibold)
+                                            .foregroundStyle(Color(red: 1, green: 0.31, blue: 0.11))
+                                        Spacer()
+                                        Spacer()
                                     }
                                 }
-                            }.frame(width:geo.size.width, height:haveThing[0]>0 ? 170:240)
+                                ScrollView {
+                                    VStack(spacing: 4) {
+                                        ForEach(dataBox.filter{ $0.thingDate == selectDay && $0.thingState == false}, id: \.self) { dataItem in
+                                            ToDoCheck(dataItem: .constant(dataItem), haveThing: $haveThing)
+                                                .onAppear {
+                                                    haveThing[1] += 1
+                                                }
+                                        }
+                                    }
+                                }.opacity(!whichChoice ? 1.0 : 0.0)
+                                .frame(width:geo.size.width)
+                            }
+                            
+                            //                            if haveThing[1] > 0 {
+                            //                                Text("已完成")
+                            //                                    .font(.system(size: 22))
+                            //                                    .fontWeight(.bold)
+                            //                                    .foregroundStyle(Color.black)
+                            //                                    .padding(.leading)
+                            //                            }
+                            
                         }
                     }
                 }.navigationTitle("待辦事項  "+selectDayMonth+"月")
@@ -154,6 +208,9 @@ struct ToDoTimeLine: View {
                         }.padding(.top,0)
                     }
             }.background(Color("aBayBackground"))
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                refreshStatistic()
+            }
         }
     }
     
@@ -165,6 +222,17 @@ struct ToDoTimeLine: View {
             WidgetCenter.shared.reloadTimelines(ofKind: "CountDownDateWidget")
         }
         return todayToDoString
+    }
+    
+    func refreshStatistic() {
+        haveThing = [0, 0]
+        for item in dataBox.filter{ $0.thingDate == selectDay} {
+            if item.thingState {
+                haveThing[0] += 1
+            } else {
+                haveThing[1] += 1
+            }
+        }
     }
     
 }
@@ -259,6 +327,12 @@ struct SmallWeekCalendar: View {
                 )
             }
         }.onAppear {
+            let today = Calendar.current.component(.weekday, from: Date())
+            let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: Date())
+            select = dateComponents.weekday! - 1
+            selectDay = formatterSelectDate(dateFor(select))
+            todayDate = formatterSelectDate(Date())
+        }.onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             let today = Calendar.current.component(.weekday, from: Date())
             let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: Date())
             select = dateComponents.weekday! - 1
@@ -363,6 +437,7 @@ struct ToDoCheck: View {
                         Button(action: {
                             updateState(item: dataItem, toDoState: false)
                             haveThing[0] -= 1
+                            haveThing[1] += 1
                             tapState.toggle()
                         }, label: {
                             ZStack(alignment: .center) {
@@ -378,7 +453,7 @@ struct ToDoCheck: View {
                                     .fontWeight(.semibold)
                                     .foregroundStyle(Color.white)
                             }
-                        }).sensoryFeedback(.impact, trigger: tapState)
+                        }).sensoryFeedback(.success, trigger: tapState)
                         .padding(.trailing)
                     } else {
 //                        Image(systemName: "checkmark.circle.fill")
@@ -389,7 +464,7 @@ struct ToDoCheck: View {
                         Button(action: {
                             updateState(item: dataItem, toDoState: true)
                             haveThing[1] -= 1
-                            
+                            haveThing[0] += 1
                         }, label: {
                             ZStack {
                                 Circle()
@@ -425,6 +500,7 @@ struct ToDoCheck: View {
         item.thingState = toDoState
         try! context.save()
     }
+    
 }
 
 
