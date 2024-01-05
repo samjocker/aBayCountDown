@@ -88,7 +88,6 @@ struct HomePage: View {
                                                 content.opacity(phase.isIdentity ? 1.0:0.0)
                                                     .scaleEffect(phase.isIdentity ? 1.0:0.6)
                                             }
-                                        
                                         WidgetPreviewRectangle(titleText: .constant(bigTestNameDict[bigTestType]!), targetDate: $bigTestDate)
                                             .background{
                                                 Color("aBayBackground")
@@ -414,6 +413,7 @@ struct EditDatePage: View {
 struct WidgetPreviewRectangle: View {
     
     @Binding var titleText: String
+        
     @Binding var targetDate: Date
     
     @State var downDays: Int = 100
@@ -469,29 +469,36 @@ struct WidgetPreviewRectangle: View {
                 
             }.frame(width: geo.size.width,height: geo.size.height)
                 .onAppear{
-                    let days = Calendar.current.dateComponents([.day], from: .now, to: targetDate)
-                    if targetDate <= .now {
-                        isFinish = true
-                        downDays = days.day!
-                    } else {
-                        isFinish = false
-                        downDays = days.day!+1
-                    }
-                    let dateForatter = DateFormatter()
-                    dateForatter.dateFormat = "yyyy/MM/dd"
-                    let targetDateCheck = dateForatter.string(from: targetDate)
-                    let todayCheck = dateForatter.string(from: .now)
-                    if targetDateCheck == todayCheck {
-                        isToday = true
-                    } else {
-                        isToday = false
-                    }
+                    refreshVariable()
                     
+                }
+                .onChange(of: titleText) {
+                    refreshVariable()
                 }
             
 //                .border(Color.black)
         }
         
+    }
+    
+    func refreshVariable() {
+        let days = Calendar.current.dateComponents([.day], from: .now, to: targetDate)
+        if targetDate <= .now {
+            isFinish = true
+            downDays = days.day!
+        } else {
+            isFinish = false
+            downDays = days.day!+1
+        }
+        let dateForatter = DateFormatter()
+        dateForatter.dateFormat = "yyyy/MM/dd"
+        let targetDateCheck = dateForatter.string(from: targetDate)
+        let todayCheck = dateForatter.string(from: .now)
+        if targetDateCheck == todayCheck {
+            isToday = true
+        } else {
+            isToday = false
+        }
     }
 }
 
@@ -559,25 +566,35 @@ struct CustomizeWidgetPreviewRectangle: View {
             
 //                .border(Color.black)
         }.onAppear{
-            titleCount = title.count
-            if targetDate <= .now {
-                isFinish = true
-                let days = Calendar.current.dateComponents([.day], from: .now, to: targetDate)
-                countDownNum = Int(days.day!)
-            } else {
-                isFinish = false
-                let days = Calendar.current.dateComponents([.day], from: .now, to: targetDate)
-                countDownNum = Int(days.day!+1)
-            }
-            let dateForatter = DateFormatter()
-            dateForatter.dateFormat = "yyyy/MM/dd"
-            let targetDateCheck = dateForatter.string(from: targetDate)
-            let todayCheck = dateForatter.string(from: .now)
-            if targetDateCheck == todayCheck {
-                isToday = true
-            } else {
-                isToday = false
-            }
+            refeshVariable()
+        }
+        .onChange(of: title) {
+            refeshVariable()
+        }
+        .onChange(of: targetDate) {
+            refeshVariable()
+        }
+    }
+    
+    func refeshVariable() {
+        titleCount = title.count
+        if targetDate <= .now {
+            isFinish = true
+            let days = Calendar.current.dateComponents([.day], from: .now, to: targetDate)
+            countDownNum = Int(days.day!)
+        } else {
+            isFinish = false
+            let days = Calendar.current.dateComponents([.day], from: .now, to: targetDate)
+            countDownNum = Int(days.day!+1)
+        }
+        let dateForatter = DateFormatter()
+        dateForatter.dateFormat = "yyyy/MM/dd"
+        let targetDateCheck = dateForatter.string(from: targetDate)
+        let todayCheck = dateForatter.string(from: .now)
+        if targetDateCheck == todayCheck {
+            isToday = true
+        } else {
+            isToday = false
         }
     }
 }

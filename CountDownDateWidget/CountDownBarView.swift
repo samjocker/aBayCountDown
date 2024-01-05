@@ -91,26 +91,29 @@ struct CountDownBarView: View {
             }
         }
         .onAppear{
-            leftDateYear1 = getCountDownNum(targetDate: targetDate, lineNum: 1)
-            leftDateYear2 = getCountDownNum(targetDate: targetDate, lineNum: 2)
-            if leftDateYear2>366 {
-                outOfBarRange = true
-            } else {
-                outOfBarRange = false
-            }
-            if leftDateYear2>0 {
-                haveDoubleLine = true
-            } else {
-                haveDoubleLine = false
-            }
-            startDistYear1 = getStartDistNum(targetDate: targetDate, lineNum: 1, haveLine2: haveDoubleLine)
-            startDistYear2 = getStartDistNum(targetDate: targetDate, lineNum: 2, haveLine2: haveDoubleLine)
-//            print("------------")
-//            print(leftDateYear1)
-//            print(leftDateYear2)
-//            print(startDistYear1)
-//            print(startDistYear2)
+            refreshVariable()
+        }.onChange(of: targetDate) {
+            refreshVariable()
+        }.onChange(of: isFinish) {
+            refreshVariable()
         }
+    }
+    
+    func refreshVariable() {
+        leftDateYear1 = getCountDownNum(targetDate: targetDate, lineNum: 1)
+        leftDateYear2 = getCountDownNum(targetDate: targetDate, lineNum: 2)
+        if leftDateYear2>366 {
+            outOfBarRange = true
+        } else {
+            outOfBarRange = false
+        }
+        if leftDateYear2>0 {
+            haveDoubleLine = true
+        } else {
+            haveDoubleLine = false
+        }
+        startDistYear1 = getStartDistNum(targetDate: targetDate, lineNum: 1, haveLine2: haveDoubleLine)
+        startDistYear2 = getStartDistNum(targetDate: targetDate, lineNum: 2, haveLine2: haveDoubleLine)
     }
     
     func getCountDownNum(targetDate: Date, lineNum: Int) -> Int {
