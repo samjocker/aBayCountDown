@@ -15,7 +15,7 @@ struct ToDoTimeLine: View {
     
     @AppStorage("todayToDoList", store: UserDefaults(suiteName: "group.Sam.CountDownDate")) var todayToDoList: String = ""
     
-//    @State var todayToDoString: String = ""
+    //    @State var todayToDoString: String = ""
     @State var addToDo: Bool = false
     @State var whichChoice: Bool = true
     @State var toDoName: String = ""
@@ -91,13 +91,13 @@ struct ToDoTimeLine: View {
                                 }.frame(width: geo.size.width)
                             }
                             
-//                            if haveThing[0] > 0 || haveThing[1] > 0 {
-//                                Text("待完成")
-//                                    .font(.system(size: 22))
-//                                    .fontWeight(.bold)
-//                                    .foregroundStyle(Color.black)
-//                                    .padding(.leading)
-//                            }
+                            //                            if haveThing[0] > 0 || haveThing[1] > 0 {
+                            //                                Text("待完成")
+                            //                                    .font(.system(size: 22))
+                            //                                    .fontWeight(.bold)
+                            //                                    .foregroundStyle(Color.black)
+                            //                                    .padding(.leading)
+                            //                            }
                             ZStack {
                                 ScrollView {
                                     VStack(spacing: 4) {
@@ -115,7 +115,7 @@ struct ToDoTimeLine: View {
                                         }
                                     }
                                 }.opacity(whichChoice ? 1.0 : 0.0)
-                                .frame(width:geo.size.width)
+                                    .frame(width:geo.size.width)
                                 if haveThing[0] == 0 && haveThing[1] > 0 && whichChoice{
                                     VStack {
                                         Spacer()
@@ -137,7 +137,7 @@ struct ToDoTimeLine: View {
                                         }
                                     }
                                 }.opacity(!whichChoice ? 1.0 : 0.0)
-                                .frame(width:geo.size.width)
+                                    .frame(width:geo.size.width)
                             }
                             
                             //                            if haveThing[1] > 0 {
@@ -208,9 +208,9 @@ struct ToDoTimeLine: View {
                         }.padding(.top,0)
                     }
             }.background(Color("aBayBackground"))
-            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                refreshStatistic()
-            }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                    refreshStatistic()
+                }
         }
     }
     
@@ -251,94 +251,102 @@ struct SmallWeekCalendar: View {
     @State var today: Int = 0
     @State private var currentWeekOffset = 0
     @State var tapState: [Bool] = [false]
+    @State var selectPage: Int = 0
     
     var body: some View {
-        HStack(spacing: 12) {
-            ForEach(0..<7) { i in
-                VStack {
-                    Text(weekName[i])
-                        .font(.system(size: 10))
-                        .fontWeight(.semibold)
-                    Button(action: {
-                        select = i
-                        selectDay = formatterSelectDate(dateFor(i))
-                        refreshSelectDate()
-                        tapState[0].toggle()
-                    }, label: {
-                        if select != i {
-                            ZStack {
-                                Rectangle()
-                                    .foregroundColor(.clear)
-                                    .frame(width: 40, height: 45)
-                                    .cornerRadius(10)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .inset(by: 1.5)
-                                            .stroke(formatterSelectDate(dateFor(i)) == todayDate ? Color(red: 0.2, green: 0.3, blue: 0.5):Color(red: 0.6, green: 0.66, blue: 0.79), lineWidth: 3)
-                                    )
-                                VStack(alignment: .center) {
-                                    Text(convertDateToNongLi(aStrDate: dateFor(i)))
-                                        .font(.system(size: 8))
-                                        .fontWeight(.semibold)
-                                        .foregroundStyle(Color(red: 0.2, green: 0.3, blue: 0.5))
-                                    Text(formatterDayDate(dateFor(i)))
-                                        .font(.system(size: 20, design: .rounded))
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(Color(red: 0.2, green: 0.3, blue: 0.5))
-                                }.padding(.top, 3)
-                            }
-                        } else {
-                            ZStack {
-                                Rectangle()
-                                    .foregroundColor(.clear)
-                                    .frame(width: 40, height: 45)
-                                    .background(Color(red: 0.2, green: 0.3, blue: 0.5))
-                                    .cornerRadius(10)
-                                    .shadow(color: .black.opacity(0.25), radius: 3, x: 4, y: 4)
-                                VStack(alignment: .center) {
-                                    Text(convertDateToNongLi(aStrDate: dateFor(i)))
-                                        .font(.system(size: 8))
-                                        .fontWeight(.semibold)
-                                        .foregroundStyle(Color(red: 0.95, green: 0.9, blue: 0.87))
-                                    Text(formatterDayDate(dateFor(i)))
-                                        .font(.system(size: 20, design: .rounded))
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(Color(red: 0.95, green: 0.9, blue: 0.87))
-                                }.padding(.top, 3)
-                            }
+        TabView(selection: $selectPage) {
+            ForEach(-10..<100, id: \.self) { item in
+                HStack(spacing: 12) {
+                    ForEach(0..<7, id:\.self) { i in
+                        VStack {
+                            Text(weekName[i])
+                                .font(.system(size: 10))
+                                .fontWeight(.semibold)
+                            Button(action: {
+                                select = i
+                                selectDay = formatterSelectDate(dateFor(i, weekOffset: item))
+                                refreshSelectDate(item)
+                                tapState[0].toggle()
+                            }, label: {
+                                if select != i {
+                                    ZStack {
+                                        Rectangle()
+                                            .foregroundColor(.clear)
+                                            .frame(width: 40, height: 45)
+                                            .cornerRadius(10)
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 10)
+                                                    .inset(by: 1.5)
+                                                    .stroke(formatterSelectDate(dateFor(i, weekOffset: item)) == todayDate ? Color(red: 0.2, green: 0.3, blue: 0.5):Color(red: 0.6, green: 0.66, blue: 0.79), lineWidth: 3)
+                                            )
+                                        VStack(alignment: .center) {
+                                            Text(convertDateToNongLi(aStrDate: dateFor(i, weekOffset: item)))
+                                                .font(.system(size: 8))
+                                                .fontWeight(.semibold)
+                                                .foregroundStyle(Color(red: 0.2, green: 0.3, blue: 0.5))
+                                            Text(formatterDayDate(dateFor(i, weekOffset: item)))
+                                                .font(.system(size: 20, design: .rounded))
+                                                .fontWeight(.bold)
+                                                .foregroundStyle(Color(red: 0.2, green: 0.3, blue: 0.5))
+                                        }.padding(.top, 3)
+                                    }
+                                } else {
+                                    ZStack {
+                                        Rectangle()
+                                            .foregroundColor(.clear)
+                                            .frame(width: 40, height: 45)
+                                            .background(Color(red: 0.2, green: 0.3, blue: 0.5))
+                                            .cornerRadius(10)
+                                            .shadow(color: .black.opacity(0.25), radius: 3, x: 4, y: 4)
+                                        VStack(alignment: .center) {
+                                            Text(convertDateToNongLi(aStrDate: dateFor(i, weekOffset: item)))
+                                                .font(.system(size: 8))
+                                                .fontWeight(.semibold)
+                                                .foregroundStyle(Color(red: 0.95, green: 0.9, blue: 0.87))
+                                            Text(formatterDayDate(dateFor(i, weekOffset: item)))
+                                                .font(.system(size: 20, design: .rounded))
+                                                .fontWeight(.bold)
+                                                .foregroundStyle(Color(red: 0.95, green: 0.9, blue: 0.87))
+                                        }.padding(.top, 3)
+                                    }
+                                }
+                            }).sensoryFeedback(.decrease , trigger: tapState[0])
                         }
-                    }).sensoryFeedback(.decrease , trigger: tapState[0])
-                }
-                .gesture(
-                    DragGesture()
-                        .onEnded { value in
-                            if value.translation.width < -30 {
-                                // 向左滑动，显示下一周
-                                currentWeekOffset += 1
-                                refreshSelectDate()
-                            } else if value.translation.width > 30 {
-                                // 向右滑动，显示上一周
-                                currentWeekOffset -= 1
-                                refreshSelectDate()
-                            }
-                            // 更新选择的日期等逻辑
-                            // 更新 selectDay 和 select 等属性的逻辑，以显示新的日期
-                        }
-                )
+                        //                .gesture(
+                        //                    DragGesture()
+                        //                        .onEnded { value in
+                        //                            if value.translation.width < -30 {
+                        //                                // 向左滑动，显示下一周
+                        //                                currentWeekOffset += 1
+                        //                                refreshSelectDate()
+                        //                            } else if value.translation.width > 30 {
+                        //                                // 向右滑动，显示上一周
+                        //                                currentWeekOffset -= 1
+                        //                                refreshSelectDate()
+                        //                            }
+                        //                            // 更新选择的日期等逻辑
+                        //                            // 更新 selectDay 和 select 等属性的逻辑，以显示新的日期
+                        //                        }
+                        //                )
+                    }
+                }.onAppear {
+                    let today = Calendar.current.component(.weekday, from: Date())
+                    let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: Date())
+                    select = dateComponents.weekday! - 1
+                    selectDay = formatterSelectDate(dateFor(select, weekOffset: item))
+                    todayDate = formatterSelectDate(Date())
+                    refreshSelectDate(item)
+                }.onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                    let today = Calendar.current.component(.weekday, from: Date())
+                    let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: Date())
+                    select = dateComponents.weekday! - 1
+                    selectDay = formatterSelectDate(dateFor(select, weekOffset: item))
+                    todayDate = formatterSelectDate(Date())
+                }.tag(item)
             }
-        }.onAppear {
-            let today = Calendar.current.component(.weekday, from: Date())
-            let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: Date())
-            select = dateComponents.weekday! - 1
-            selectDay = formatterSelectDate(dateFor(select))
-            todayDate = formatterSelectDate(Date())
-        }.onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-            let today = Calendar.current.component(.weekday, from: Date())
-            let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: Date())
-            select = dateComponents.weekday! - 1
-            selectDay = formatterSelectDate(dateFor(select))
-            todayDate = formatterSelectDate(Date())
         }
+        .frame(height:80)
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
     }
     
     func formatterDayDate(_ day:Date) -> String {
@@ -353,10 +361,10 @@ struct SmallWeekCalendar: View {
         return formatter.string(from: day)
     }
     
-    func refreshSelectDate() {
+    func refreshSelectDate(_ weekOffset: Int) {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy/MM/dd"
-        selectDay = formatter.string(from: dateFor(select))
+        selectDay = formatter.string(from: dateFor(select, weekOffset: weekOffset))
         havething = [0, 0]
         let monthStart = selectDay.index(selectDay.startIndex, offsetBy: 5)
         let monthEnd = selectDay.index(selectDay.startIndex, offsetBy: 6)
@@ -384,12 +392,12 @@ struct SmallWeekCalendar: View {
         return dStr
     }
     
-    func dateFor(_ offset: Int) -> Date {
-        return calendar.date(byAdding: .day, value: offset, to: startOfWeek()) ?? Date()
+    func dateFor(_ offset: Int, weekOffset: Int) -> Date {
+        return calendar.date(byAdding: .day, value: offset, to: startOfWeek(weekOffset)) ?? Date()
     }
     
-    func startOfWeek() -> Date {
-        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: calendar.date(byAdding: .day, value: currentWeekOffset*7 , to: Date())!)
+    func startOfWeek(_ weekOffset: Int) -> Date {
+        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: calendar.date(byAdding: .day, value: weekOffset*7 , to: Date())!)
         return calendar.date(from: components) ?? Date()
     }
     
@@ -454,13 +462,13 @@ struct ToDoCheck: View {
                                     .foregroundStyle(Color.white)
                             }
                         }).sensoryFeedback(.success, trigger: tapState)
-                        .padding(.trailing)
+                            .padding(.trailing)
                     } else {
-//                        Image(systemName: "checkmark.circle.fill")
-//                            .resizable()
-//                            .scaledToFit()
-//                            .frame(width: 26)
-//                            .padding(.trailing)
+                        //                        Image(systemName: "checkmark.circle.fill")
+                        //                            .resizable()
+                        //                            .scaledToFit()
+                        //                            .frame(width: 26)
+                        //                            .padding(.trailing)
                         Button(action: {
                             updateState(item: dataItem, toDoState: true)
                             haveThing[1] -= 1
@@ -476,7 +484,7 @@ struct ToDoCheck: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 26)
-                                    
+                                
                             }.padding(.top, -2)
                         })
                         .padding(.trailing)
