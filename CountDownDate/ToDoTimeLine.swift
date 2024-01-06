@@ -90,15 +90,7 @@ struct ToDoTimeLine: View {
                                     }
                                 }.frame(width: geo.size.width)
                             }
-                            
-                            //                            if haveThing[0] > 0 || haveThing[1] > 0 {
-                            //                                Text("待完成")
-                            //                                    .font(.system(size: 22))
-                            //                                    .fontWeight(.bold)
-                            //                                    .foregroundStyle(Color.black)
-                            //                                    .padding(.leading)
-                            //                            }
-                            ZStack {
+                            TabView(selection: .constant(whichChoice ? 0 : 1)) {
                                 ScrollView {
                                     VStack(spacing: 4) {
                                         ForEach(dataBox.filter{ $0.thingDate == selectDay && $0.thingState == true}, id: \.self) { dataItem in
@@ -114,7 +106,8 @@ struct ToDoTimeLine: View {
                                                 }
                                         }
                                     }
-                                }.opacity(whichChoice ? 1.0 : 0.0)
+                                }.tag(0)
+//                                .opacity(whichChoice ? 1.0 : 0.0)
                                     .frame(width:geo.size.width)
                                 if haveThing[0] == 0 && haveThing[1] > 0 && whichChoice{
                                     VStack {
@@ -136,9 +129,11 @@ struct ToDoTimeLine: View {
                                                 }
                                         }
                                     }
-                                }.opacity(!whichChoice ? 1.0 : 0.0)
+                                }.tag(1)
+//                                .opacity(!whichChoice ? 1.0 : 0.0)
                                     .frame(width:geo.size.width)
                             }
+                            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                             
                             //                            if haveThing[1] > 0 {
                             //                                Text("已完成")
@@ -211,6 +206,8 @@ struct ToDoTimeLine: View {
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                     refreshStatistic()
                 }
+        }.onChange(of: haveThing) {
+            refreshStatistic()
         }
     }
     
@@ -312,31 +309,18 @@ struct SmallWeekCalendar: View {
                                 }
                             }).sensoryFeedback(.decrease , trigger: tapState[0])
                         }
-                        //                .gesture(
-                        //                    DragGesture()
-                        //                        .onEnded { value in
-                        //                            if value.translation.width < -30 {
-                        //                                // 向左滑动，显示下一周
-                        //                                currentWeekOffset += 1
-                        //                                refreshSelectDate()
-                        //                            } else if value.translation.width > 30 {
-                        //                                // 向右滑动，显示上一周
-                        //                                currentWeekOffset -= 1
-                        //                                refreshSelectDate()
-                        //                            }
-                        //                            // 更新选择的日期等逻辑
-                        //                            // 更新 selectDay 和 select 等属性的逻辑，以显示新的日期
-                        //                        }
-                        //                )
                     }
-                }.onAppear {
-                    let today = Calendar.current.component(.weekday, from: Date())
-                    let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: Date())
-                    select = dateComponents.weekday! - 1
-                    selectDay = formatterSelectDate(dateFor(select, weekOffset: item))
-                    todayDate = formatterSelectDate(Date())
-                    refreshSelectDate(item)
-                }.onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                }
+//                .onAppear() {
+//                    let today = Calendar.current.component(.weekday, from: Date())
+//                    let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: Date())
+//                    select = dateComponents.weekday! - 1
+//                    selectDay = formatterSelectDate(dateFor(select, weekOffset: item))
+//                    todayDate = formatterSelectDate(Date())
+//                    refreshSelectDate(item)
+//                    print(selectDay)
+//                }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                     let today = Calendar.current.component(.weekday, from: Date())
                     let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: Date())
                     select = dateComponents.weekday! - 1
@@ -344,6 +328,24 @@ struct SmallWeekCalendar: View {
                     todayDate = formatterSelectDate(Date())
                 }.tag(item)
             }
+        }
+        .onAppear() {
+            let today = Calendar.current.component(.weekday, from: Date())
+            let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: Date())
+            select = dateComponents.weekday! - 1
+            selectDay = formatterSelectDate(dateFor(select, weekOffset: selectPage))
+            todayDate = formatterSelectDate(Date())
+            refreshSelectDate(selectPage)
+            print(selectDay)
+        }
+        .onChange(of: selectPage) {
+            let today = Calendar.current.component(.weekday, from: Date())
+            let dateComponents = Calendar.current.dateComponents(in: TimeZone.current, from: Date())
+            select = dateComponents.weekday! - 1
+            selectDay = formatterSelectDate(dateFor(select, weekOffset: selectPage))
+            todayDate = formatterSelectDate(Date())
+            refreshSelectDate(selectPage)
+            print(selectDay)
         }
         .frame(height:80)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
